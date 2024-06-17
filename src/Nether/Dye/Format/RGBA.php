@@ -31,25 +31,11 @@ class RGBA {
 	ImportArrayRGBA(array $Bits):
 	static {
 
-		switch(count($Bits)) {
-			case 3:
-				$this->Set(
-					$Bits[0], $Bits[1], $Bits[2],
-					Dye\Util::ByteMax
-				);
-				break;
-
-			case 4:
-				$this->Set(
-					$Bits[0], $Bits[1], $Bits[2],
-					$Bits[3]
-				);
-				break;
-
-			default:
-				throw new \Exception('expects 3 or 4 inputs');
-				break;
-		}
+		match(count($Bits)) {
+			3 => $this->Set($Bits[0], $Bits[1], $Bits[2], Dye\Util::ByteMax),
+			4 => $this->Set($Bits[0], $Bits[1], $Bits[2], $Bits[3]),
+			default => throw new \Exception('expects 3 or 4 inputs')
+		};
 
 		return $this;
 	}
