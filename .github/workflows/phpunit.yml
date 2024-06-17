@@ -11,12 +11,12 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ 'ubuntu-latest', 'windows-latest' ]
-        php-versions: [ '8.1' ]
+        php-versions: [ '8.2' ]
     steps:
       - name: Checkout Source.
         uses: actions/checkout@v2
       - name: Setup PHP 8.1
-        if: ${{ matrix.php-versions == '8.1' }}
+        if: ${{ matrix.php-versions == '8.2' }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
@@ -27,7 +27,7 @@ jobs:
           composer install
           php vendor/bin/phpunit tests --bootstrap vendor/autoload.php --coverage-clover ./coverage.xml
       - name: Push to Codecov Probably
-        if: ${{ matrix.php-versions == '8.1' }}
+        if: ${{ matrix.php-versions == '8.2' }}
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage.xml
