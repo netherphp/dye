@@ -84,7 +84,10 @@ class Colour {
 	HueRotate(int $Deg=0):
 	static {
 
-		$this->HSL->Rotate($Deg);
+		$this->HSL->H = Util::WrapDegrees(
+			$this->HSL->H + $Deg
+		);
+
 		$this->UpdateFromHSL();
 
 		return $this;
@@ -94,9 +97,10 @@ class Colour {
 	HueShift(float $Per=0.0):
 	static {
 
-		$Deg = round((Util::DegMax * $Per), 0);
+		$this->HueRotate(
+			(int)round((Util::DegMax * $Per), 0)
+		);
 
-		$this->HSL->Rotate($Deg);
 		$this->UpdateFromHSL();
 
 		return $this;
@@ -106,7 +110,10 @@ class Colour {
 	Saturate(float $Per=0.0):
 	static {
 
-		$this->HSL->Saturate($Per);
+		$this->HSL->S = Util::ClampNormal(
+			$this->HSL->S + ($this->HSL->S * $Per)
+		);
+
 		$this->UpdateFromHSL();
 
 		return $this;
@@ -116,7 +123,10 @@ class Colour {
 	Desaturate(float $Per=0.0):
 	static {
 
-		$this->HSL->Desaturate($Per);
+		$this->HSL->S = Util::ClampNormal(
+			$this->HSL->S - ($this->HSL->S * $Per)
+		);
+
 		$this->UpdateFromHSL();
 
 		return $this;
@@ -126,7 +136,10 @@ class Colour {
 	Lighten(float $Per=0.0):
 	static {
 
-		$this->HSL->Lighten($Per);
+		$this->HSL->L = Util::ClampNormal(
+			$this->HSL->L + ($this->HSL->L * $Per)
+		);
+
 		$this->UpdateFromHSL();
 
 		return $this;
@@ -136,7 +149,10 @@ class Colour {
 	Darken(float $Per=0.0):
 	static {
 
-		$this->HSL->Darken($Per);
+		$this->HSL->L = Util::ClampNormal(
+			$this->HSL->L - ($this->HSL->L * $Per)
+		);
+
 		$this->UpdateFromHSL();
 
 		return $this;
@@ -149,17 +165,17 @@ class Colour {
 	Saturation(float $Mult=1.0):
 	static {
 
-		$this->HSL->Saturation($Mult);
+		$this->HSL->S = ($this->HSL->S * $Mult);
 		$this->UpdateFromHSL();
 
 		return $this;
 	}
 
 	public function
-	Brightness(float $Mult=1.0):
+	Lightness(float $Mult=1.0):
 	static {
 
-		$this->HSL->Brightness($Mult);
+		$this->HSL->L = ($this->HSL->L * $Mult);
 		$this->UpdateFromHSL();
 
 		return $this;
