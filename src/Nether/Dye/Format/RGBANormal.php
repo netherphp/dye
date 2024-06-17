@@ -31,10 +31,27 @@ class RGBANormal {
 	ImportRGBA(RGBA $RGBA):
 	static {
 
-		$this->R = $RGBA->R / Dye\Colour::ByteMax;
-		$this->G = $RGBA->G / Dye\Colour::ByteMax;
-		$this->B = $RGBA->B / Dye\Colour::ByteMax;
-		$this->A = $RGBA->A / Dye\Colour::ByteMax;
+		$this->Set(
+			$RGBA->R / Dye\Util::ByteMax,
+			$RGBA->G / Dye\Util::ByteMax,
+			$RGBA->B / Dye\Util::ByteMax,
+			$RGBA->A / Dye\Util::ByteMax
+		);
+
+		return $this;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
+	Set(float $R, float $G, float $B, float $A):
+	static {
+
+		$this->R = Dye\Util::ClampNormal($R);
+		$this->G = Dye\Util::ClampNormal($G);
+		$this->B = Dye\Util::ClampNormal($B);
+		$this->A = Dye\Util::ClampNormal($A);
 
 		return $this;
 	}

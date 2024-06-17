@@ -7,13 +7,6 @@ namespace Nether\Dye;
 
 class Colour {
 
-	const
-	DegMax = 360,
-	ByteMax = 255;
-
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-
 	public Format\RGBA
 	$RGBA;
 
@@ -101,7 +94,7 @@ class Colour {
 	HueShift(float $Per=0.0):
 	static {
 
-		$Deg = round((static::DegMax * $Per), 0);
+		$Deg = round((Util::DegMax * $Per), 0);
 
 		$this->HSL->Rotate($Deg);
 		$this->UpdateFromHSL();
@@ -188,10 +181,10 @@ class Colour {
 		////////
 
 		$this->RGBA->ImportArrayRGBA(match(TRUE) {
-			($Len === 8) => static::DecToBitsRGBA(hexdec($Hex)),
-			($Len === 6) => [ ...static::DecToBitsRGB(hexdec($Hex)), 0xFF ],
-			($Len === 4) => static::ShortToBitsRGBA(hexdec($Hex)),
-			($Len === 3) => [ ...static::ShortToBitsRGB(hexdec($Hex)), 0xFF ],
+			($Len === 8) => Util::DecToBitsRGBA(hexdec($Hex)),
+			($Len === 6) => [ ...Util::DecToBitsRGB(hexdec($Hex)), 0xFF ],
+			($Len === 4) => Util::ShortToBitsRGBA(hexdec($Hex)),
+			($Len === 3) => [ ...Util::ShortToBitsRGB(hexdec($Hex)), 0xFF ],
 			default      => throw new \Exception('invalid hex colour format')
 		});
 
@@ -206,7 +199,7 @@ class Colour {
 	ImportIntRGB(int $Int):
 	static {
 
-		$this->RGBA->ImportArrayRGBA(static::DecToBitsRGB($Int));
+		$this->RGBA->ImportArrayRGBA(Util::DecToBitsRGB($Int));
 		$this->UpdateFromRGBA();
 
 		return $this;
@@ -216,7 +209,7 @@ class Colour {
 	ImportIntRGBA(int $Int):
 	static {
 
-		$this->RGBA->ImportArrayRGBA(static::DecToBitsRGBA($Int));
+		$this->RGBA->ImportArrayRGBA(Util::DecToBitsRGBA($Int));
 		$this->UpdateFromRGBA();
 
 		return $this;
@@ -371,81 +364,6 @@ class Colour {
 		$Output->ImportRGBA($R, $G, $B, $A);
 
 		return $Output;
-	}
-
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-
-	static public function
-	DecToBitsRGB(int $Int):
-	array {
-
-		return [
-			($Int & 0xFF0000) >> 16,
-			($Int & 0x00FF00) >> 8,
-			($Int & 0x0000FF) >> 0
-		];
-	}
-
-	static public function
-	DecToBitsRGBA(int $Int):
-	array {
-
-		return [
-			($Int & 0xFF000000) >> 24,
-			($Int & 0x00FF0000) >> 16,
-			($Int & 0x0000FF00) >> 8,
-			($Int & 0x000000FF) >> 0
-		];
-	}
-
-	static public function
-	ShortToBitsRGB(int $Int):
-	array {
-
-		return [
-			(($Int & 0xF00) >> 8) | (($Int & 0xF00) >> 4),
-			(($Int & 0x0F0) >> 4) | (($Int & 0x0F0) >> 0),
-			(($Int & 0x00F) >> 0) | (($Int & 0x00F) << 4)
-		];
-	}
-
-	static public function
-	ShortToBitsRGBA(int $Int):
-	array {
-
-		return [
-			(($Int & 0xF000) >> 12) | (($Int & 0xF000) >> 8),
-			(($Int & 0x0F00) >> 8)  | (($Int & 0x0F00) >> 4),
-			(($Int & 0x00F0) >> 4)  | (($Int & 0x00F0) >> 0),
-			(($Int & 0x000F) >> 0)  | (($Int & 0x000F) << 4)
-		];
-	}
-
-	static public function
-	ClampByte(int|float $Num):
-	int {
-
-		return min(max((int)$Num, 0), static::ByteMax);
-	}
-
-	static public function
-	ClampNormal(float $Val):
-	float {
-
-		return min(max($Val, 0.0), 1.0);
-	}
-
-	static public function
-	WrapDegrees(int|float $Deg):
-	int {
-
-		$Wrapped = ((int)round($Deg, 0)) % static::DegMax;
-
-		if($Wrapped < 0)
-		$Wrapped += static::DegMax;
-
-		return $Wrapped;
 	}
 
 };

@@ -49,9 +49,9 @@ class HSL {
 	Set(int $H, float $S, float $L):
 	static {
 
-		$this->H = Dye\Colour::WrapDegrees($H);
-		$this->S = Dye\Colour::ClampNormal($S);
-		$this->L = Dye\Colour::ClampNormal($L);
+		$this->H = Dye\Util::WrapDegrees($H);
+		$this->S = Dye\Util::ClampNormal($S);
+		$this->L = Dye\Util::ClampNormal($L);
 
 		return $this;
 	}
@@ -63,7 +63,7 @@ class HSL {
 	Rotate(int $Deg=0):
 	static {
 
-		$this->H = Dye\Colour::WrapDegrees(
+		$this->H = Dye\Util::WrapDegrees(
 			$this->H + $Deg
 		);
 
@@ -74,7 +74,7 @@ class HSL {
 	Saturate(float $Per=0.0):
 	static {
 
-		$this->S = Dye\Colour::ClampNormal(
+		$this->S = Dye\Util::ClampNormal(
 			$this->S + ($this->S * $Per)
 		);
 
@@ -85,7 +85,7 @@ class HSL {
 	Desaturate(float $Per=0.0):
 	static {
 
-		$this->S = Dye\Colour::ClampNormal(
+		$this->S = Dye\Util::ClampNormal(
 			$this->S - ($this->S * $Per)
 		);
 
@@ -96,7 +96,7 @@ class HSL {
 	Lighten(float $Per=0.0):
 	static {
 
-		$this->L = Dye\Colour::ClampNormal(
+		$this->L = Dye\Util::ClampNormal(
 			$this->L + ($this->L * $Per)
 		);
 
@@ -107,7 +107,7 @@ class HSL {
 	Darken(float $Per=0.0):
 	static {
 
-		$this->L = Dye\Colour::ClampNormal(
+		$this->L = Dye\Util::ClampNormal(
 			$this->L - ($this->L * $Per)
 		);
 
@@ -121,7 +121,7 @@ class HSL {
 	Saturation(float $Mult=1.0):
 	static {
 
-		$this->S = Dye\Colour::ClampNormal($this->S * $Mult);
+		$this->S = Dye\Util::ClampNormal($this->S * $Mult);
 
 		return $this;
 	}
@@ -130,7 +130,7 @@ class HSL {
 	Brightness(float $Mult=1.0):
 	static {
 
-		$this->L = Dye\Colour::ClampNormal($this->L * $Mult);
+		$this->L = Dye\Util::ClampNormal($this->L * $Mult);
 
 		return $this;
 	}
@@ -165,7 +165,7 @@ class HSL {
 
 		////////
 
-		return Dye\Colour::WrapDegrees($Hue);
+		return Dye\Util::WrapDegrees($Hue);
 	}
 
 	protected function

@@ -22,7 +22,7 @@ class RGBA {
 	$G = 0;
 
 	public int
-	$A = Dye\Colour::ByteMax;
+	$A = Dye\Util::ByteMax;
 
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ class RGBA {
 			case 3:
 				$this->Set(
 					$Bits[0], $Bits[1], $Bits[2],
-					Dye\Colour::ByteMax
+					Dye\Util::ByteMax
 				);
 				break;
 
@@ -58,6 +58,9 @@ class RGBA {
 	ImportHSL(HSL $HSL):
 	static {
 
+		// none of this was straight forward math. it was written by
+		// following with an explained version of the algo.
+
 		$Rot = ($HSL->H / 360.0);
 		$RGB = [];
 		$T1 = NULL;
@@ -66,7 +69,7 @@ class RGBA {
 		////////
 
 		if($HSL->S === 0.0) {
-			$this->R = Dye\Colour::ClampByte($HSL->L * 255);
+			$this->R = Dye\Util::ClampByte($HSL->L * 255);
 			$this->G = $this->R;
 			$this->B = $this->R;
 			return $this;
@@ -117,18 +120,16 @@ class RGBA {
 		);
 
 		$RGB = array_map(
-			fn(float $V)=> Dye\Colour::ClampByte(
-				round(($V * 255), 0)
-			),
+			fn(float $V)=> Dye\Util::ClampByte(round(($V * 255), 0)),
 			$RGB
 		);
 
 		////////
 
-		$this->R = $RGB[0];
-		$this->G = $RGB[1];
-		$this->B = $RGB[2];
-		$this->A = Dye\Colour::ByteMax;
+		$this->Set(
+			$RGB[0], $RGB[1], $RGB[2],
+			Dye\Util::ByteMax
+		);
 
 		return $this;
 	}
@@ -140,10 +141,10 @@ class RGBA {
 	Set(int $R, int $G, int $B, int $A):
 	static {
 
-		$this->R = Dye\Colour::ClampByte($R);
-		$this->G = Dye\Colour::ClampByte($G);
-		$this->B = Dye\Colour::ClampByte($B);
-		$this->A = Dye\Colour::ClampByte($A);
+		$this->R = Dye\Util::ClampByte($R);
+		$this->G = Dye\Util::ClampByte($G);
+		$this->B = Dye\Util::ClampByte($B);
+		$this->A = Dye\Util::ClampByte($A);
 
 		return $this;
 	}
