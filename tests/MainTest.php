@@ -2,13 +2,17 @@
 
 namespace NetherTestSuite\Dye;
 
+################################################################################
+################################################################################
+
+use PHPUnit;
 use Nether\Dye;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
+################################################################################
+################################################################################
 
 class MainTest
-extends TestCase {
+extends PHPUnit\Framework\TestCase {
 
 	const
 	GryHex1 = '#404040',
@@ -113,12 +117,247 @@ extends TestCase {
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
-	#[Test]
+	#[PHPUnit\Framework\Attributes\Test]
 	public function
 	FromHexString():
 	void {
 
-		$this->AssertTrue(TRUE);
+		$Key = NULL;
+		$RGB = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepRGB1 as $Key => $RGB) {
+			$C = Dye\Colour::FromHexString($RGB);
+			$this->AssertEquals(static::SweepRGB1[$Key], $C->ToHexRGB());
+			$this->AssertEquals(static::SweepRGB1F[$Key], $C->ToHexRGBA());
+		}
+
+		foreach(static::SweepRGB1F as $Key => $RGB) {
+			$C = Dye\Colour::FromHexString($RGB);
+			$this->AssertEquals(static::SweepRGB1[$Key], $C->ToHexRGB());
+			$this->AssertEquals(static::SweepRGB1F[$Key], $C->ToHexRGBA());
+		}
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromHexShort():
+	void {
+
+		$Short = [ '#123', '#1234' ];
+		$Long = [ '#112233', '#11223344' ];
+
+		$C = Dye\Colour::FromHexString($Short[0]);
+		$this->AssertEquals($Long[0], $C->ToHexRGB());
+		$this->AssertEquals("{$Long[0]}FF", $C->ToHexRGBA());
+
+		$C = Dye\Colour::FromHexString($Short[1]);
+		$this->AssertEquals($Long[0], $C->ToHexRGB());
+		$this->AssertEquals($Long[1], $C->ToHexRGBA());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromHexInvalidChar():
+	void {
+
+		// an invalid hex number.
+
+		$Err = NULL;
+		$Exp = FALSE;
+
+		try { Dye\Colour::FromHexString('#OK'); }
+		catch(\Throwable $Err) {
+			$Exp = TRUE;
+			$this->AssertInstanceOf(\Exception::class, $Err);
+		}
+
+		$this->AssertTrue($Exp);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromHexInvalidLen():
+	void {
+
+		// an invalid hex colour length.
+
+		$Err = NULL;
+		$Exp = FALSE;
+
+		try { Dye\Colour::FromHexString('#Ad'); }
+		catch(\Throwable $Err) {
+			$Exp = TRUE;
+			$this->AssertInstanceOf(\Exception::class, $Err);
+		}
+
+		$this->AssertTrue($Exp);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromIntRGB():
+	void {
+
+		$Key = NULL;
+		$RGB = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepInt1 as $Key => $RGB) {
+			$C = Dye\Colour::FromIntRGB($RGB);
+			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
+			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
+		}
+
+		foreach(static::SweepInt1F as $Key => $RGB) {
+			$C = Dye\Colour::FromIntRGBA($RGB);
+			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
+			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
+		}
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromRGB():
+	void {
+
+		$Key = NULL;
+		$RGB = NULL;
+		$Bits = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepInt1 as $Key => $RGB) {
+			$Bits = Dye\Util::DecToBitsRGB($RGB);
+			$C = Dye\Colour::FromRGBA($Bits[0], $Bits[1], $Bits[2]);
+			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
+			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
+		}
+
+		foreach(static::SweepInt1F as $Key => $RGB) {
+			$Bits = Dye\Util::DecToBitsRGBA($RGB);
+			$C = Dye\Colour::FromRGBA($Bits[0], $Bits[1], $Bits[2], $Bits[3]);
+			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
+			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
+		}
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromHSL():
+	void {
+
+		$Fuzz = 2.25;
+		$Key = NULL;
+		$HSL = NULL;
+
+		$Chsl = NULL;
+		$Crgb = NULL;
+
+		////////
+
+		foreach(static::SweepHSL1 as $Key => $HSL) {
+
+			// check values
+			$Chsl = Dye\Colour::FromHSL($HSL[0], $HSL[1], $HSL[2]);
+			$this->AssertEquals($HSL[0], $Chsl->H());
+			$this->AssertEquals($HSL[1], $Chsl->S());
+			$this->AssertEquals($HSL[2], $Chsl->L());
+			$this->AssertEquals(255, $Chsl->A());
+
+			// sanity check rgb values
+			$Crgb = Dye\Colour::FromHexString(static::SweepRGB1[$Key]);
+			$this->AssertEqualsWithDelta($Crgb->R(), $Chsl->R(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->G(), $Chsl->G(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->B(), $Chsl->B(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->A(), $Chsl->A(), $Fuzz);
+
+		}
+
+		return;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// MANIPULATION API ////////////////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestHueRotateShift():
+	void {
+
+		$Col = Dye\Colour::FromHSL(...static::RedHSL1);
+		$this->AssertEquals(0, $Col->H());
+
+		// basic rotations by degrees.
+
+		$Col->HueRotate(120);
+		$this->AssertEquals(120, $Col->H());
+
+		$Col->HueRotate(120);
+		$this->AssertEquals(240, $Col->H());
+
+		$Col->HueRotate(120);
+		$this->AssertEquals(0, $Col->H());
+
+		$Col->HueRotate(-120);
+		$this->AssertEquals(240, $Col->H());
+
+		$Col->HueRotate(-120);
+		$this->AssertEquals(120, $Col->H());
+
+		$Col->HueRotate(-120);
+		$this->AssertEquals(0, $Col->H());
+
+		// basic rotations by percentage.
+
+		$Col->HueShift(0.3334);
+		$this->AssertEquals(120, $Col->H());
+
+		$Col->HueShift(0.3334);
+		$this->AssertEquals(240, $Col->H());
+
+		$Col->HueShift(0.3334);
+		$this->AssertEquals(0, $Col->H());
+
+		$Col->HueShift(-0.3334);
+		$this->AssertEquals(240, $Col->H());
+
+		$Col->HueShift(-0.3334);
+		$this->AssertEquals(120, $Col->H());
+
+		$Col->HueShift(-0.3334);
+		$this->AssertEquals(0, $Col->H());
+
+		// rotations that overflow the number of degrees.
+
+		$Col->HueRotate(120 * 4);
+		$this->AssertEquals(120, $Col->H());
+
+		$Col->HueRotate(-120 * 4);
+		$this->AssertEquals(0, $Col->H());
+
+		$Col->HueShift(0.3334 * 4);
+		$this->AssertEquals(120, $Col->H());
+
+		$Col->HueShift(-0.3334 * 4);
+		$this->AssertEquals(0, $Col->H());
 
 		return;
 	}
