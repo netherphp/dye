@@ -2,17 +2,88 @@
 
 namespace NetherTestSuite\Dye;
 
+################################################################################
+################################################################################
+
+use PHPUnit;
 use Nether\Dye;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
+################################################################################
+################################################################################
 
 class BasicTest
-extends TestCase {
+extends PHPUnit\Framework\TestCase {
 
-	#[Test]
+	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestUtilClampByte():
+	TestDecToBitsRGB():
+	void {
+
+		$RGB = [ 1, 2, 3 ];
+		$Bits = Dye\Util::DecToBitsRGB(0x010203);
+		$Key = NULL;
+		$Val = NULL;
+
+		foreach($RGB as $Key => $Val)
+		$this->AssertEquals($Val, $Bits[$Key]);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestDecToBitsRGBA():
+	void {
+
+		$RGBA = [ 1, 2, 3, 4 ];
+		$Bits = Dye\Util::DecToBitsRGBA(0x01020304);
+		$Key = NULL;
+		$Val = NULL;
+
+		foreach($RGBA as $Key => $Val)
+		$this->AssertEquals($Val, $Bits[$Key]);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestShortToBitsRGB():
+	void {
+
+		$RGB = [ 0x11, 0x22, 0x33 ];
+		$Bits = Dye\Util::ShortToBitsRGB(0x123);
+		$Key = NULL;
+		$Val = NULL;
+
+		foreach($RGB as $Key => $Val)
+		$this->AssertEquals($Val, $Bits[$Key]);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestShortToBitsRGBA():
+	void {
+
+		$RGB = [ 0x11, 0x22, 0x33, 0x44 ];
+		$Bits = Dye\Util::ShortToBitsRGBA(0x1234);
+		$Key = NULL;
+		$Val = NULL;
+
+		foreach($RGB as $Key => $Val)
+		$this->AssertEquals($Val, $Bits[$Key]);
+
+		return;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestClampByte():
 	void {
 
 		$Input = [
@@ -33,9 +104,9 @@ extends TestCase {
 		return;
 	}
 
-	#[Test]
+	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestUtilClampNormal():
+	TestClampNormal():
 	void {
 
 		$Input = [
@@ -55,9 +126,9 @@ extends TestCase {
 		return;
 	}
 
-	#[Test]
+	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestUtilWrapDegrees():
+	TestWrapDegrees():
 	void {
 
 		$Input = [
