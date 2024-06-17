@@ -8,6 +8,8 @@ namespace NetherTestSuite\Dye;
 use PHPUnit;
 use Nether\Dye;
 
+use Throwable;
+
 ################################################################################
 ################################################################################
 
@@ -16,7 +18,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestDecToBitsRGB():
+	TestUtilDecToBitsRGB():
 	void {
 
 		$RGB = [ 1, 2, 3 ];
@@ -32,7 +34,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestDecToBitsRGBA():
+	TestUtilDecToBitsRGBA():
 	void {
 
 		$RGBA = [ 1, 2, 3, 4 ];
@@ -48,7 +50,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestShortToBitsRGB():
+	TestUtilShortToBitsRGB():
 	void {
 
 		$RGB = [ 0x11, 0x22, 0x33 ];
@@ -64,7 +66,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestShortToBitsRGBA():
+	TestUtilShortToBitsRGBA():
 	void {
 
 		$RGB = [ 0x11, 0x22, 0x33, 0x44 ];
@@ -83,7 +85,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestClampByte():
+	TestUtilClampByte():
 	void {
 
 		$Input = [
@@ -106,7 +108,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestClampNormal():
+	TestUtilClampNormal():
 	void {
 
 		$Input = [
@@ -128,7 +130,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestWrapDegrees():
+	TestUtilWrapDegrees():
 	void {
 
 		$Input = [
@@ -147,6 +149,84 @@ extends PHPUnit\Framework\TestCase {
 
 		foreach($Input as $Value)
 		$this->AssertEquals($Value[1], Dye\Util::WrapDegrees($Value[0]));
+
+		return;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFormatValidArrayRGBA():
+	void {
+
+		$Format = new Dye\Format\RGBA;
+		$Err = NULL;
+		$Exp = FALSE;
+
+		try {
+			$Format->ImportArrayRGBA([1, 2, 3]);
+			$this->AssertEquals(1, $Format->R);
+			$this->AssertEquals(2, $Format->G);
+			$this->AssertEquals(3, $Format->B);
+			$this->AssertEquals(255, $Format->A);
+		}
+
+		catch(Throwable $Err) { $Exp = TRUE; }
+
+		$this->AssertFalse($Exp);
+		$this->AssertNull($Err);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFormatInvalidArrayRGBA1():
+	void {
+
+		$Format = new Dye\Format\RGBA;
+		$Err = NULL;
+		$Exp = FALSE;
+
+		try {
+			$Format->ImportArrayRGBA([1, 2]);
+			$this->AssertEquals(1, $Format->R);
+			$this->AssertEquals(2, $Format->G);
+			$this->AssertEquals(3, $Format->B);
+			$this->AssertEquals(255, $Format->A);
+		}
+
+		catch(Throwable $Err) { $Exp = TRUE; }
+
+		$this->AssertTRUE($Exp);
+		$this->AssertNotNull($Err);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFormatInvalidArrayRGBA2():
+	void {
+
+		$Format = new Dye\Format\RGBA;
+		$Err = NULL;
+		$Exp = FALSE;
+
+		try {
+			$Format->ImportArrayRGBA([1, 2, 3, 4, 5]);
+			$this->AssertEquals(1, $Format->R);
+			$this->AssertEquals(2, $Format->G);
+			$this->AssertEquals(3, $Format->B);
+			$this->AssertEquals(255, $Format->A);
+		}
+
+		catch(Throwable $Err) { $Exp = TRUE; }
+
+		$this->AssertTRUE($Exp);
+		$this->AssertNotNull($Err);
 
 		return;
 	}
