@@ -200,6 +200,44 @@ class Colour {
 	////////////////////////////////
 
 	public function
+	Mix(self $With, float $Str=1.0):
+	static {
+
+		$Src = $this->RGB->ToArray();
+		$Dst = $With->RGB->ToArray();
+		$New = [];
+		$Out = NULL;
+		$K = NULL;
+		$V = NULL;
+		$D = NULL;
+
+		foreach($Src as $K => $V) {
+			$Diff = ($Src[$K] - $Dst[$K]) * $Str;
+
+			$New[$K] = match(TRUE) {
+				($Diff < 0)
+				=> $Src[$K] + abs($Diff),
+
+				($Diff > 0)
+				=> $Src[$K] - abs($Diff),
+
+				default
+				=> $Src[$K]
+			};
+
+			$New[$K] = (int)$New[$K];
+			continue;
+		}
+
+		$Out = $this->SetRGB(...$New);
+
+		return $Out;
+	}
+
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
 	SetRGB(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
 	static {
 

@@ -1,7 +1,13 @@
-<?php
+<?php ##########################################################################
+################################################################################
 
 $AppRoot = dirname(__FILE__, 2);
 require(sprintf('%s/vendor/autoload.php', $AppRoot));
+
+$Row = NULL;
+$Red = Nether\Dye\ColourImmutable::From('#FF0000');
+$Magenta = Nether\Dye\ColourImmutable::From('#FF00FF');
+$Slate = Nether\Dye\ColourImmutable::From('#2468ad');
 
 $ColourSet = [
 	'#FF0000', '#00FF00', '#0000FF',
@@ -83,11 +89,27 @@ class BurnRow {
 	}
 
 	public function
-	Render(array $Data):
+	GenMixData(Nether\Dye\Colour $With):
+	array {
+
+		$Output = array_fill(0, 11, NULL);
+		$Key = NULL;
+
+		for($Key = 0; $Key < count($Output); $Key++) {
+			$Output[$Key] = Nether\Dye\Colour::FromIntRGB($this->C->ToIntRGB());
+			$Output[$Key]->Mix($With, ($Key * 0.1));
+		}
+
+		return $Output;
+	}
+
+	public function
+	Render(string $Name, array $Data):
 	string {
 
 		ob_start();
 		echo '<div class="burnrow">';
+		printf('<div>%s</div>', $Name);
 
 		$C = NULL;
 
@@ -116,14 +138,14 @@ class BurnRow {
 	<title>Colour Test</title>
 
 	<style type="text/css">
-	body { font-family: 'Consolas', monospace; margin: 0px; padding: 1.5rem; }
+	body { font-family: 'Consolas', monospace; font-size: 0.8rem; margin: 0px; padding: 1.5rem; }
 	h1, h2, h3, h4 { line-height: 1.0rem; margin: 0px 0px 1.5rem 0px; padding: 0px; }
 	h1 { font-size: 4rem; }
 	h2 { font-size: 2.5rem; }
 	hr { margin-top: 1.5rem; margin-bottom: 1.5rem; }
 
 	.burnrow { display: flex; width: 100%; }
-	.burnrow > div { padding: 0.25rem; flex-grow: 1; text-align: center; }
+	.burnrow > div { padding: 0.25rem; flex-basis: 100%; text-align: center; }
 	.mb-4 { margin-bottom: 2.0rem; }
 	</style>
 </head>
@@ -133,7 +155,6 @@ class BurnRow {
 	<h2>About Red</h2>
 	<hr />
 	<?php
-	$Red = Nether\Dye\Colour::From('#FF0000');
 	printf('<div><b>RGB Hex:</b> %s</div>', $Red->ToHexRGB());
 	printf('<div><b>RGBA Hex:</b> %s</div>', $Red->ToHexRGBA());
 	printf('<div><b>Style RGB:</b> %s</div>', $Red->ToStyleRGB());
@@ -149,10 +170,12 @@ class BurnRow {
 	<?php
 	foreach($ColourSet as $ColourHex) {
 		$Row = new BurnRow($ColourHex);
-		echo $Row->Render($Row->GenRotateData());
-		echo $Row->Render($Row->GenDesatData());
-		echo $Row->Render($Row->GenDarkenData());
-		echo $Row->Render($Row->GenLightenData());
+		echo $Row->Render('Rotate', $Row->GenRotateData());
+		echo $Row->Render('Desat', $Row->GenDesatData());
+		echo $Row->Render('Darken', $Row->GenDarkenData());
+		echo $Row->Render('Lighten', $Row->GenLightenData());
+		echo $Row->Render('Mix(Magenta)', $Row->GenMixData($Magenta));
+		echo $Row->Render('Mix(Slate)', $Row->GenMixData($Slate));
 		echo '<br />';
 	}
 	?>

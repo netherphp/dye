@@ -785,6 +785,52 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestMix1():
+	void {
+
+		$Red = Dye\ColourImmutable::From('#FF0000');
+		$Mix = Dye\ColourImmutable::From('#FF00FF');
+
+		$this->AssertEquals(
+			'#FF0000', $Red->Mix($Mix, 0.0)->ToHexRGB()
+		);
+
+		$this->AssertEquals(
+			'#FF007F', $Red->Mix($Mix, 0.5)->ToHexRGB()
+		);
+
+		$this->AssertEquals(
+			'#FF00FF', $Red->Mix($Mix, 1.0)->ToHexRGB()
+		);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestMix2():
+	void {
+
+		$Red = Dye\ColourImmutable::From('#FF0000');
+		$Mix = Dye\ColourImmutable::From('#2468AD');
+
+		$this->AssertEquals(
+			'#FF0000', $Red->Mix($Mix, 0.0)->ToHexRGB()
+		);
+
+		$this->AssertEquals(
+			'#913456', $Red->Mix($Mix, 0.5)->ToHexRGB()
+		);
+
+		$this->AssertEquals(
+			'#2468AD', $Red->Mix($Mix, 1.0)->ToHexRGB()
+		);
+
+		return;
+	}
+
 	////////////////////////////////
 	////////////////////////////////
 
