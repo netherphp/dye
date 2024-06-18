@@ -25,6 +25,13 @@ class Colour {
 		return;
 	}
 
+	protected function
+	GetReturnTarget():
+	static {
+
+		return $this;
+	}
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
@@ -98,26 +105,19 @@ class Colour {
 	HueRotate(int $Deg=0):
 	static {
 
-		$this->HSL->H = Util::WrapDegrees(
-			$this->HSL->H + $Deg
-		);
+		$Out = $this->GetReturnTarget();
 
-		$this->UpdateFromHSL();
+		$Out->HSL->HueRotate($Deg);
+		$Out->UpdateFromHSL();
 
-		return $this;
+		return $Out;
 	}
 
 	public function
 	HueShift(float $Per=0.0):
 	static {
 
-		$this->HueRotate(
-			(int)round((Util::DegMax * $Per), 0)
-		);
-
-		$this->UpdateFromHSL();
-
-		return $this;
+		return $this->HueRotate((int)round((Util::DegMax * $Per), 0));
 	}
 
 	public function
