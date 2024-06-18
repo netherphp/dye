@@ -5,6 +5,9 @@ namespace Nether\Dye;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// methods prefixed Set or Import are currently implied to be exceptions to
+// the immutable rule until i hear back from some friends.
+
 class Colour {
 
 	const
@@ -407,6 +410,33 @@ class Colour {
 		return $this;
 	}
 
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
+	SetRGBA(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
+	static {
+
+		// this method differs from the import variant in that it allows
+		// for the fukken wild wild west over here.
+
+		if($R !== NULL)
+		$this->RGBA->R = $R;
+
+		if($G !== NULL)
+		$this->RGBA->G = $G;
+
+		if($B !== NULL)
+		$this->RGBA->B = $B;
+
+		if($A !== NULL)
+		$this->RGBA->A = $A;
+
+		$this->UpdateFromRGBA();
+
+		return $this;
+	}
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
@@ -570,7 +600,7 @@ class Colour {
 	}
 
 	static public function
-	FromRGBA(int $R, int $G, int $B, int $A=255):
+	FromRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
 
 		$Output = new static;

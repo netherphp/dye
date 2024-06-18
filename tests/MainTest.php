@@ -689,6 +689,35 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
+	TestSetRGBA():
+	void {
+
+		$C = Dye\Colour::FromString('#000000');
+		$this->AssertEquals('#000000', $C->ToHexRGB());
+
+		$C->SetRGBA(1, 2, 3, 4);
+		$this->AssertEquals('#01020304', $C->ToHexRGBA());
+
+		$C->SetRGBA(R: 0xA1);
+		$this->AssertEquals('#A1020304', $C->ToHexRGBA());
+
+		$C->SetRGBA(G: 0xB1);
+		$this->AssertEquals('#A1B10304', $C->ToHexRGBA());
+
+		$C->SetRGBA(B: 0xC1);
+		$this->AssertEquals('#A1B1C104', $C->ToHexRGBA());
+
+		$C->SetRGBA(A: 0xD1);
+		$this->AssertEquals('#A1B1C1D1', $C->ToHexRGBA());
+
+		return;
+	}
+
+	////////////////////////////////
+	////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
 	TestImmutable():
 	void {
 
