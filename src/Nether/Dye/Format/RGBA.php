@@ -28,31 +28,37 @@ class RGBA {
 	public function
 	__Construct(int $R=0, int $G=0, int $B=0, int $A=255) {
 
-		$this->R = $R;
-		$this->G = $G;
-		$this->B = $B;
-		$this->A = $A;
+		$this->Set($R, $G, $B, $A);
 
 		return;
 	}
 
 	public function
-	R():
+	R(?int $R=NULL):
 	int {
+
+		if($R !== NULL)
+		$this->R = Dye\Util::ClampByte($R);
 
 		return $this->R;
 	}
 
 	public function
-	G():
+	G(?int $G=NULL):
 	int {
+
+		if($G !== NULL)
+		$this->G = Dye\Util::ClampByte($G);
 
 		return $this->G;
 	}
 
 	public function
-	B():
+	B(?int $B=NULL):
 	int {
+
+		if($B !== NULL)
+		$this->B = Dye\Util::ClampByte($B);
 
 		return $this->B;
 	}
