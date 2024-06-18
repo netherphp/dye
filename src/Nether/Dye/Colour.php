@@ -7,6 +7,11 @@ namespace Nether\Dye;
 
 class Colour {
 
+	const
+	TypeRGB  = 'rgb',
+	TypeRGBA = 'rgba',
+	TypeHSL  = 'hsl';
+
 	public Format\RGBA
 	$RGBA;
 
@@ -127,6 +132,23 @@ class Colour {
 		);
 	}
 
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
+	Saturation(float $Mult=1.0):
+	static {
+
+		$Out = $this->GetReturnTarget();
+
+		////////
+
+		$Out->HSL->S = ($Out->HSL->S * $Mult);
+		$Out->UpdateFromHSL();
+
+		return $Out;
+	}
+
 	public function
 	Saturate(float $Per=0.0):
 	static {
@@ -156,6 +178,23 @@ class Colour {
 			$Out->HSL->S - ($Out->HSL->S * $Per)
 		);
 
+		$Out->UpdateFromHSL();
+
+		return $Out;
+	}
+
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
+	Lightness(float $Mult=1.0):
+	static {
+
+		$Out = $this->GetReturnTarget();
+
+		////////
+
+		$Out->HSL->L = ($Out->HSL->L * $Mult);
 		$Out->UpdateFromHSL();
 
 		return $Out;
@@ -196,45 +235,26 @@ class Colour {
 	}
 
 	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-
-	public function
-	Saturation(float $Mult=1.0):
-	static {
-
-		$Out = $this->GetReturnTarget();
-
-		////////
-
-		$Out->HSL->S = ($Out->HSL->S * $Mult);
-		$Out->UpdateFromHSL();
-
-		return $Out;
-	}
-
-	public function
-	Lightness(float $Mult=1.0):
-	static {
-
-		$Out = $this->GetReturnTarget();
-
-		////////
-
-		$Out->HSL->L = ($Out->HSL->L * $Mult);
-		$Out->UpdateFromHSL();
-
-		return $Out;
-	}
-
-	////////////////////////////////////////////////////////////////
 	// COLOUR READING //////////////////////////////////////////////
 
 	public function
-	Import(mixed $Input):
+	Import(mixed $Input, ?string $Type=NULL):
 	static {
 
 		if(is_string($Input))
-		return $this->ImportFromString($Input);
+		return $this->DigestString($Input);
+
+		////////
+
+		if($Type !== NULL) {
+			if(is_array($Input))
+			return $this->DigestArray($Input, $Type);
+
+			if(is_int($Input))
+			return $this->DigestInteger($Input, $Type);
+		}
+
+		////////
 
 		throw new Error\InvalidColourFormat(
 			"{$Input} (try specific Import* method)"
@@ -244,7 +264,7 @@ class Colour {
 	}
 
 	protected function
-	ImportFromString(string $Input):
+	DigestString(string $Input):
 	static {
 
 		$In = strtolower(trim($Input));
@@ -272,6 +292,42 @@ class Colour {
 
 		return $this;
 	}
+
+	protected function
+	DigestArray(array $Input, string $Type):
+	static {
+
+		if(count($Input) === 3) {
+			if($Type === static::TypeRGB)
+			return $this->ImportRGBA(...$Input);
+
+			if($Type === static::TypeHSL)
+			return $this->ImportHSL(...$Input);
+		}
+
+		if(count($Input) === 4) {
+			if($Type === static::TypeRGBA)
+			return $this->ImportRGBA(...$Input);
+		}
+
+		return $this;
+	}
+
+	protected function
+	DigestInteger(int $Input, string $Type):
+	static {
+
+		if($Type === static::TypeRGB)
+		return $this->ImportIntRGB($Input);
+
+		if($Type === static::TypeRGBA)
+		return $this->ImportIntRGBA($Input);
+
+		return $this;
+	}
+
+	////////////////////////////////
+	////////////////////////////////
 
 	public function
 	ImportHexString(string $Hex):
@@ -472,7 +528,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->ImportFromString($Input);
+		$Output->DigestString($Input);
 
 		return $Output;
 	}
