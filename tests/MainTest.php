@@ -362,18 +362,20 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
-	##[PHPUnit\Framework\Attributes\Test]
+	#[PHPUnit\Framework\Attributes\Test]
 	public function
 	TestSaturationShift():
 	void {
 
 		$C = Dye\Colour::FromHexString('#FF0000');
 		$C->Saturation(0.5);
+		$this->AssertEquals('#BF4040', $C->ToHexRGB());
 
-		$this->AssertEquals(
-			'#880000',
-			$C->ToHexRGB()
-		);
+		$C->Saturation(2.0);
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		$C->Saturation(0.0);
+		$this->AssertEquals('#7F7F7F', $C->ToHexRGB());
 
 		return;
 	}
