@@ -237,6 +237,40 @@ class Colour {
 		return $Out;
 	}
 
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
+	SetRGBA(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
+	static {
+
+		$this->RGBA->Set(
+			$R ?? $this->RGBA->R,
+			$G ?? $this->RGBA->G,
+			$B ?? $this->RGBA->B,
+			$A ?? $this->RGBA->A
+		);
+
+		$this->UpdateFromRGBA();
+
+		return $this;
+	}
+
+	public function
+	SetHSL(?int $H=NULL, ?float $S=NULL, ?float $L=NULL):
+	static {
+
+		$this->HSL->Set(
+			$H ?? $this->HSL->H,
+			$S ?? $this->HSL->S,
+			$L ?? $this->HSL->L
+		);
+
+		$this->UpdateFromHSL();
+
+		return $this;
+	}
+
 	////////////////////////////////////////////////////////////////
 	// COLOUR READING //////////////////////////////////////////////
 
@@ -424,28 +458,6 @@ class Colour {
 		$this->RGBA->A = 0xFF;
 
 		$this->UpdateFromHSL();
-
-		return $this;
-	}
-
-	////////////////////////////////
-	////////////////////////////////
-
-	public function
-	SetRGBA(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
-	static {
-
-		// this method differs from the import variant in that it allows
-		// for the fukken wild wild west over here.
-
-		$this->RGBA->Set(
-			$R ?? $this->RGBA->R,
-			$G ?? $this->RGBA->G,
-			$B ?? $this->RGBA->B,
-			$A ?? $this->RGBA->A
-		);
-
-		$this->UpdateFromRGBA();
 
 		return $this;
 	}

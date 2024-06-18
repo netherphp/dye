@@ -745,6 +745,29 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestSetHSL():
+	void {
+
+		$C = Dye\Colour::FromString('#000000');
+		$this->AssertEquals('#000000', $C->ToHexRGB());
+
+		$C->SetHSL(120, 1.0, 0.5);
+		$this->AssertEquals('#00FF00', $C->ToHexRGB());
+
+		$C->SetHSL(H: 240);
+		$this->AssertEquals('#0000FF', $C->ToHexRGB());
+
+		$C->SetHSL(S: 0.5);
+		$this->AssertEquals('#4040BF', $C->ToHexRGB());
+
+		$C->SetHSL(L: 0.75);
+		$this->AssertEquals('#A1A1E0', $C->ToHexRGB());
+
+		return;
+	}
+
 	////////////////////////////////
 	////////////////////////////////
 
