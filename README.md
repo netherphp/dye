@@ -97,7 +97,7 @@ This version will return a fresh immutable colour when mixing in modifications l
 > object to keep the various properties in sync. The SetRGB() and SetHSL()
 > methods accept optional labeled arguments and array splattering.
 
-**`$Colour->RGB->ToArray(bool $Indexed=TRUE): int`**
+**`$Colour->RGB->ToArray(bool $Indexed=TRUE): array`**
 * Return an indexed array or a list of RGB data.
 
 **`$Colour->RGB->R(): int`**
@@ -112,7 +112,7 @@ This version will return a fresh immutable colour when mixing in modifications l
 **`$Colour->RGB->A(): int`**
 * Return the Alpha component of the RGB data.
 
-**`$Colour->HSL->ToArray(bool $Indexed=TRUE): int`**
+**`$Colour->HSL->ToArray(bool $Indexed=TRUE): array`**
 * Return an indexed array or a list of HSL data.
 
 **`$Colour->HSL->H(): int`**
