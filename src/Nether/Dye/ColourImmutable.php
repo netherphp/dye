@@ -9,12 +9,16 @@ extends Colour {
 	GetReturnTarget():
 	static {
 
-		return static::FromRGBA(
+		$Output = new static;
+
+		$Output->ImportRGBA(
 			$this->RGBA->R,
 			$this->RGBA->G,
 			$this->RGBA->B,
 			$this->RGBA->A
 		);
+
+		return $Output;
 	}
 
 }

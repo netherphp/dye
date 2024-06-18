@@ -404,7 +404,6 @@ extends PHPUnit\Framework\TestCase {
 		$C = new Dye\Colour;
 		$N = NULL;
 		$Err = NULL;
-		$Exp = FALSE;
 
 		////////
 
@@ -496,7 +495,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestLightDark():
+	TestQueryLightDark():
 	void {
 
 		$Colours = [
@@ -684,6 +683,32 @@ extends PHPUnit\Framework\TestCase {
 
 		$C->Desaturate(0.5);
 		$this->AssertEquals('#BF4040', $C->ToHexRGB());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestImmutable():
+	void {
+
+		// normal is a mutable chain it edits itself returns itself.
+
+		$C1 = Dye\Colour::FromHexString('#FF0000');
+		$C2 = $C1->HueRotate(120);
+
+		$this->AssertTrue(
+			spl_object_id($C1) === spl_object_id($C2)
+		);
+
+		// optional is immutable its edits return new copies instead.
+
+		$C1 = Dye\ColourImmutable::FromHexString('#FF0000');
+		$C2 = $C1->HueRotate(120);
+
+		$this->AssertTrue(
+			spl_object_id($C1) !== spl_object_id($C2)
+		);
 
 		return;
 	}
