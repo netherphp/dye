@@ -400,6 +400,55 @@ class Colour {
 	}
 
 	static public function
+	FromStyleRGB(string $RGB):
+	static {
+
+		$Bits = NULL;
+
+		if(!preg_match('/rgb\(([\d]{1,3}), *?([\d]{1,3}), *?([\d]{1,3})\)/i', $RGB, $Bits))
+		throw new Error\InvalidColourFormat($RGB);
+
+		////////
+
+		return static::FromRGBA(
+			(int)$Bits[1], (int)$Bits[2], (int)$Bits[3]
+		);
+	}
+
+	static public function
+	FromStyleRGBA(string $RGBA):
+	static {
+
+		$Bits = NULL;
+
+		if(!preg_match('/rgba\(([\d]+), *?([\d]+), *?([\d]+), *?([\d\.]+)\)/i', $RGBA, $Bits))
+		throw new Error\InvalidColourFormat($RGBA);
+
+		////////
+
+		return static::FromRGBA(
+			(int)$Bits[1], (int)$Bits[2], (int)$Bits[3],
+			Util::ClampByte($Bits[4] * Util::ByteMax)
+		);
+	}
+
+	static public function
+	FromStyleHSL(string $HSL):
+	static {
+
+		$Bits = NULL;
+
+		if(!preg_match('/hsl\(([\d]+), *?([\d\.]+), *?([\d\.]+)\)/i', $HSL, $Bits))
+		throw new Error\InvalidColourFormat($HSL);
+
+		////////
+
+		return static::FromHSL(
+			(int)$Bits[1], (float)$Bits[2], (float)$Bits[3]
+		);
+	}
+
+	static public function
 	FromIntRGB(int $RGB):
 	static {
 
@@ -437,6 +486,33 @@ class Colour {
 		$Output->ImportRGBA($R, $G, $B, $A);
 
 		return $Output;
+	}
+
+	static public function
+	FromString(string $Input):
+	?static {
+
+		$Str = strtolower($Input);
+
+		////////
+
+		if(str_starts_with($Str, '#'))
+		return static::FromHexString($Str);
+
+		if(str_starts_with($Str, 'rgb('))
+		return static::FromStyleRGB($Str);
+
+		if(str_starts_with($Str, 'rgba('))
+		return static::FromStyleRGBA($Str);
+
+		if(str_starts_with($Str, 'hsl('))
+		return static::FromStyleHSL($Str);
+
+		////////
+
+		throw new \Exception('known colour string');
+
+		return NULL;
 	}
 
 };

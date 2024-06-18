@@ -145,6 +145,75 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
+	FromStyleRGB():
+	void {
+
+		$RGB = NULL;
+		$T = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepRGB1 as $RGB) {
+			$T = Dye\Colour::FromHexString($RGB);
+			$C = Dye\Colour::FromStyleRGB($T->ToStyleRGB());
+
+			$this->AssertEquals($T->ToHexRGB(), $C->ToHexRGB());
+			$this->AssertEquals($T->ToHexRGBA(), $C->ToHexRGBA());
+		}
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	FromStyleRGBA():
+	void {
+
+		$RGB = NULL;
+		$T = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepRGB1 as $RGB) {
+			$T = Dye\Colour::FromHexString($RGB);
+			$C = Dye\Colour::FromStyleRGBA($T->ToStyleRGBA());
+
+			$this->AssertEquals($T->ToHexRGB(), $C->ToHexRGB());
+			$this->AssertEquals($T->ToHexRGBA(), $C->ToHexRGBA());
+		}
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	FromStyleHSL():
+	void {
+
+		$Fuzz = 2.0;
+		$RGB = NULL;
+		$T = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepRGB1 as $RGB) {
+			$T = Dye\Colour::FromHexString($RGB);
+			$C = Dye\Colour::FromStyleHSL($T->ToStyleHSL());
+
+			$this->AssertEqualsWithDelta($T->R(), $C->R(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->G(), $C->G(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->B(), $C->B(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->A(), $C->A(), $Fuzz);
+		}
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
 	TestFromHexShort():
 	void {
 
