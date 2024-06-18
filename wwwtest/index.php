@@ -159,7 +159,7 @@ class BurnRow {
 	printf('<div><b>RGBA Hex:</b> %s</div>', $Red->ToHexRGBA());
 	printf('<div><b>Style RGB:</b> %s</div>', $Red->ToStyleRGB());
 	printf('<div><b>Style HSL:</b> %s</div>', $Red->ToStyleHSL());
-	printf('<div><b>Dark/Light:</b> %s</div>', $Red->IsDark() ? 'Dark' : 'Bright');
+	printf('<div><b>Dark/Bright:</b> %s</div>', $Red->IsDark() ? 'Dark' : 'Bright');
 	?>
 </div>
 

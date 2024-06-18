@@ -74,6 +74,14 @@ This version will return a fresh immutable colour when mixing in modifications l
 **`$Colour->Mix(Colour $With, float $Str=0.5): self`**
 * Blend the specified colour with this one at the specified strength.
 
+# Query API
+
+**`$Colour->IsBright(): bool`**
+* returns true if the colour would be perceived as bright.
+
+**`$Colour->IsDark(): bool`**
+* Returns true if the colour would be perceived as dark.
+
 # Printing API
 
 **`$Colour->ToHexRGB(): string`**
