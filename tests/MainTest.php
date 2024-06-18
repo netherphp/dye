@@ -408,6 +408,24 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestLightnessShift():
+	void {
+
+		$C = Dye\Colour::FromHexString('#FF0000');
+		$C->Lightness(0.5);
+		$this->AssertEquals('#800000', $C->ToHexRGB());
+
+		$C->Lightness(2.0);
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		$C->Lightness(0.0);
+		$this->AssertEquals('#000000', $C->ToHexRGB());
+
+		return;
+	}
+
 	////////////////////////////////////////////////////////////////
 	// TO STRING API ///////////////////////////////////////////////
 

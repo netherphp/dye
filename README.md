@@ -6,4 +6,16 @@
 
 Simple colour manipulation.
 
+# Usage
 
+```php
+
+use Nether\Dye\Colour;
+
+$Red = Colour::FromHexString('#FF0000');
+printf('<div">%s</div>', $Red->ToHexRGB());
+printf('<div">%s</div>', $Red->ToHexRGBA());
+printf('<div">%s</div>', $Red->ToStyleRGB());
+printf('<div">%s</div>', $Red->ToStyleHSL());
+
+```

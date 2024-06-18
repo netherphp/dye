@@ -118,11 +118,22 @@ class BurnRow {
 	<style type="text/css">
 	.burnrow { display: flex; width: 100%; }
 	.burnrow > div { padding: 0.25rem; font-family: 'Consolas', monospace; flex-grow: 1; text-align: center; }
+	.mb-4 { margin-bottom: 2.0rem; }
 	</style>
 </head>
 <body>
-<?php
 
+<div class="burnrow mb-4">
+	<?php
+	$Red = Nether\Dye\Colour::FromHexString('#FF0000');
+	printf('<div>RGB Hex: %s</div>', $Red->ToHexRGB());
+	printf('<div>RGBA Hex: %s</div>', $Red->ToHexRGBA());
+	printf('<div>Style RGB: %s</div>', $Red->ToStyleRGB());
+	printf('<div>Style HSL: %s</div>', $Red->ToStyleHSL());
+	?>
+</div>
+
+<?php
 foreach($ColourSet as $ColourHex) {
 	$Row = new BurnRow($ColourHex);
 	echo $Row->Render($Row->GenRotateData());
@@ -131,7 +142,7 @@ foreach($ColourSet as $ColourHex) {
 	echo $Row->Render($Row->GenLightenData());
 	echo '<br />';
 }
-
 ?>
+
 </body>
 </html>
