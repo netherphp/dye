@@ -4,11 +4,13 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/netherphp/dye/phpunit.yml?style=for-the-badge)](https://github.com/netherphp/dye/actions)
 [![codecov](https://img.shields.io/codecov/c/gh/netherphp/dye?style=for-the-badge&token=VQC48XNBS2)](https://codecov.io/gh/netherphp/dye)
 
-Simple colour formatting and manipulation.
+Simple colour parsing and manipulation library. Lightweight, dependency free.
 
+# Requirements
 
+* PHP 8.1+
 
-# Usage
+# Classes
 
 ### `Nether\Dye\Colour`
 
@@ -16,7 +18,7 @@ Basic colour object where modifications will be mixed into the current object an
 
 ### `Nether\Dye\ColourImmutable`
 
-This version will return a fresh immutable colour when mixing in modifications leaving the original object untouched.
+Same API as `Colour` except all methods that would have modified the current dataset return new objects leaving the original unaltered.
 
 # Factory API
 
