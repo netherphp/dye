@@ -19,15 +19,19 @@ class HSL {
 	public float
 	$L;
 
+	public float
+	$A;
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
 	public function
-	__Construct(int $H=0, float $S=0.0, float $L=0.0) {
+	__Construct(int $H=0, float $S=0.0, float $L=0.0, float $A=1.0) {
 
 		$this->H = $H;
 		$this->S = $S;
 		$this->L = $L;
+		$this->A = $A;
 
 		return;
 	}
@@ -52,9 +56,13 @@ class HSL {
 		$this->H = $this->CalcHueFromRGBNormal($RGBAn);
 		$this->S = $this->CalcSatFromRGBNormal($RGBAn);
 		$this->L = $this->CalcLumFromRGBNormal($RGBAn);
+		$this->A = $RGBAn->A;
 
 		return $this;
 	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
 
 	public function
 	ToStyleHSL():

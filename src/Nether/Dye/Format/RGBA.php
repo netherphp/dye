@@ -132,6 +132,18 @@ class RGBA {
 		return $this;
 	}
 
+	public function
+	ImportRGBA(RGBA $RGBA):
+	static {
+
+		$this->R = $RGBA->A;
+		$this->G = $RGBA->G;
+		$this->B = $RGBA->B;
+		$this->A = $RGBA->A;
+
+		return $this;
+	}
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 

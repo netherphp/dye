@@ -344,6 +344,8 @@ class Colour {
 	Import(string|int|array|Format\RGBA|Format\HSL $Input, ?string $Type=NULL):
 	static {
 
+		$Out = $this->GetReturnTarget();
+
 		if(is_string($Input))
 		return $this->ImportDigestString($Input);
 
@@ -364,7 +366,7 @@ class Colour {
 
 		throw new Error\InvalidColourFormat($Input, 'try specific Import* method');
 
-		return $this;
+		return $Out;
 	}
 
 	private function
@@ -463,6 +465,7 @@ class Colour {
 	ImportHexString(string $Hex):
 	static {
 
+		$Out = $this->GetReturnTarget();
 		$Hex = ltrim($Hex, '#');
 		$Len = strlen($Hex);
 
@@ -471,7 +474,7 @@ class Colour {
 
 		////////
 
-		$this->RGBA->ImportArrayRGBA(match(TRUE) {
+		$Out->RGBA->ImportArrayRGBA(match(TRUE) {
 			($Len === 8) => Util::DecToBitsRGBA(hexdec($Hex)),
 			($Len === 6) => [ ...Util::DecToBitsRGB(hexdec($Hex)), 0xFF ],
 			($Len === 4) => Util::ShortToBitsRGBA(hexdec($Hex)),
@@ -481,51 +484,59 @@ class Colour {
 
 		////////
 
-		$this->UpdateFromRGBA();
+		$Out->UpdateFromRGBA();
 
-		return $this;
+		return $Out;
 	}
 
 	private function
 	ImportIntRGB(int $Int):
 	static {
 
-		$this->RGBA->ImportArrayRGBA(Util::DecToBitsRGB($Int));
-		$this->UpdateFromRGBA();
+		$Out = $this->GetReturnTarget();
 
-		return $this;
+		$Out->RGBA->ImportArrayRGBA(Util::DecToBitsRGB($Int));
+		$Out->UpdateFromRGBA();
+
+		return $Out;
 	}
 
 	private function
 	ImportIntRGBA(int $Int):
 	static {
 
-		$this->RGBA->ImportArrayRGBA(Util::DecToBitsRGBA($Int));
-		$this->UpdateFromRGBA();
+		$Out = $this->GetReturnTarget();
 
-		return $this;
+		$Out->RGBA->ImportArrayRGBA(Util::DecToBitsRGBA($Int));
+		$Out->UpdateFromRGBA();
+
+		return $Out;
 	}
 
 	private function
 	ImportRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
 
-		$this->RGBA->Set($R, $G, $B, $A);
-		$this->UpdateFromRGBA();
+		$Out = $this->GetReturnTarget();
 
-		return $this;
+		$Out->RGBA->Set($R, $G, $B, $A);
+		$Out->UpdateFromRGBA();
+
+		return $Out;
 	}
 
 	private function
 	ImportHSL(int $H, float $S, float $L):
 	static {
 
-		$this->HSL->Set($H, $S, $L);
-		$this->RGBA->A = 0xFF;
+		$Out = $this->GetReturnTarget();
 
-		$this->UpdateFromHSL();
+		$Out->HSL->Set($H, $S, $L);
+		$Out->RGBA->A = 0xFF;
 
-		return $this;
+		$Out->UpdateFromHSL();
+
+		return $Out;
 	}
 
 	////////////////////////////////////////////////////////////////
