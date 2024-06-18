@@ -9,13 +9,10 @@ Simple colour manipulation.
 # Usage
 
 ```php
-
-use Nether\Dye\Colour;
-
-$Red = Colour::FromHexString('#FF0000');
-printf('<div">%s</div>', $Red->ToHexRGB());
-printf('<div">%s</div>', $Red->ToHexRGBA());
-printf('<div">%s</div>', $Red->ToStyleRGB());
-printf('<div">%s</div>', $Red->ToStyleHSL());
-
+$Red = Nether\Dye\Colour::FromHexString('#FF0000');
+printf('<div><b>RGB Hex:</b> %s</div>', $Red->ToHexRGB());
+printf('<div><b>RGBA Hex:</b> %s</div>', $Red->ToHexRGBA());
+printf('<div><b>Style RGB:</b> %s</div>', $Red->ToStyleRGB());
+printf('<div><b>Style HSL:</b> %s</div>', $Red->ToStyleHSL());
+printf('<div><b>Dark/Light:</b> %s</div>', $Red->IsDark() ? 'Dark' : 'Bright');
 ```
