@@ -238,7 +238,7 @@ class Colour {
 	// COLOUR READING //////////////////////////////////////////////
 
 	public function
-	Import(mixed $Input, ?string $Type=NULL):
+	Import(string|int|array $Input, ?string $Type=NULL):
 	static {
 
 		if(is_string($Input))
@@ -256,7 +256,7 @@ class Colour {
 
 		////////
 
-		throw new Error\InvalidColourFormat("{$Input} (try specific Import");
+		throw new Error\InvalidColourFormat($Input, 'try specific Import* method');
 		return $this;
 	}
 
@@ -282,7 +282,7 @@ class Colour {
 			=> $this->ImportHSL(...Util::FetchStyleBits3($In)),
 
 			default
-			=> throw new Error\InvalidColourFormat($Input)
+			=> throw new Error\InvalidColourFormat($Input, 'DigestString')
 		};
 
 		////////
@@ -311,7 +311,7 @@ class Colour {
 
 		////////
 
-		throw new Error\InvalidColourFormat("{$Input}, {$Type}");
+		throw new Error\InvalidColourFormat($Input, 'DigestArray');
 		return $this;
 	}
 
@@ -327,7 +327,7 @@ class Colour {
 
 		////////
 
-		throw new Error\InvalidColourFormat("{$Input}, {$Type}");
+		throw new Error\InvalidColourFormat($Input, 'DigestInteger');
 		return $this;
 	}
 

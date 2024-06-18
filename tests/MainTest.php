@@ -369,6 +369,10 @@ extends PHPUnit\Framework\TestCase {
 	void {
 
 		$C = new Dye\Colour;
+		$Err = NULL;
+		$Exp = FALSE;
+
+		////////
 
 		$C->Import('#FF0000');
 		$this->AssertEquals('#FF0000', $C->ToHexRGB());
@@ -399,6 +403,15 @@ extends PHPUnit\Framework\TestCase {
 
 		$C->Import(0x00FFFF7F, $C::TypeRGBA);
 		$this->AssertEquals('#00FFFF7F', $C->ToHexRGBA());
+
+		////////
+
+		try { $C->Import([ 1, 2 ]); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class, $Err
+		);
 
 		return;
 	}
