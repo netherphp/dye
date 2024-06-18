@@ -17,7 +17,7 @@ class Colour {
 	////////////////////////////////////////////////////////////////
 
 	public function
-	__Construct(mixed $Colour=NULL) {
+	__Construct() {
 
 		$this->RGBA = new Format\RGBA;
 		$this->HSL = new Format\HSL;
