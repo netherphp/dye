@@ -295,6 +295,34 @@ extends PHPUnit\Framework\TestCase {
 	}
 
 	////////////////////////////////////////////////////////////////
+	// QUERY API ///////////////////////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestLightDark():
+	void {
+
+		$Colours = [
+			'#FFFFFF' => TRUE,
+			'#000000' => FALSE
+		];
+
+		$C = NULL;
+		$Colour = NULL;
+		$Bright = NULL;
+
+		////////
+
+		foreach($Colours as $Colour => $Bright) {
+			$C = Dye\Colour::FromHexString($Colour);
+			$this->AssertEquals($Bright, $C->IsBright());
+			$this->AssertEquals(!$Bright, $C->IsDark());
+		}
+
+		return;
+	}
+
+	////////////////////////////////////////////////////////////////
 	// MANIPULATION API ////////////////////////////////////////////
 
 	#[PHPUnit\Framework\Attributes\Test]
