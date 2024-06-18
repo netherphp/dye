@@ -828,6 +828,34 @@ extends PHPUnit\Framework\TestCase {
 		$C = Dye\Colour::FromIntRGB(static::NvyInt1);
 		$RGB = Dye\Util::DecToBitsRGB(static::NvyInt1);
 
+		////////
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ 'R'=> $C->RGB->R(), 'G'=> $C->RGB->G(), 'B'=> $C->RGB->B(), 'A'=> $C->RGB->A() ],
+			$C->RGB->ToArray(),
+			[ 'R', 'G', 'B', 'A' ]
+		);
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ $C->RGB->R(), $C->RGB->G(), $C->RGB->B(), $C->RGB->A() ],
+			$C->RGB->ToArray(FALSE),
+			[ 0, 1, 2, 3 ]
+		);
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ 'H'=> $C->HSL->H(), 'S'=> $C->HSL->S(), 'L'=> $C->HSL->L(), 'A'=> $C->HSL->A() ],
+			$C->HSL->ToArray(),
+			[ 'H', 'S', 'L', 'A' ]
+		);
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ $C->HSL->H(), $C->HSL->S(), $C->HSL->L(), $C->HSL->A() ],
+			$C->HSL->ToArray(FALSE),
+			[ 0, 1, 2, 3 ]
+		);
+
+		////////
+
 		$this->AssertEquals(
 			static::NvyHex1,
 			$C->ToHexRGB()
@@ -837,7 +865,6 @@ extends PHPUnit\Framework\TestCase {
 			sprintf('hsl(%d, %.2f, %.2f)', static::NvyHSL1[0], static::NvyHSL1[1], static::NvyHSL1[2]),
 			$C->ToStyleHSL()
 		);
-
 
 		$this->AssertEquals(
 			sprintf('hsla(%d, %.2f, %.2f, 1.00)', static::NvyHSL1[0], static::NvyHSL1[1], static::NvyHSL1[2]),
