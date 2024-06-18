@@ -256,8 +256,7 @@ class Colour {
 
 		////////
 
-		// impossible to reach atm all digestables throw.
-		// throw new Error\InvalidColourFormat($Input, 'try specific Import* method');
+		throw new Error\InvalidColourFormat($Input, 'try specific Import* method');
 
 		return $this;
 	}

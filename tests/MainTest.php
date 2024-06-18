@@ -452,12 +452,35 @@ extends PHPUnit\Framework\TestCase {
 
 		$Err = NULL;
 
+		try { $C->Import([ 1, 2 ]); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class, $Err
+		);
+
+		////////
+
+		$Err = NULL;
+
 		try { $C->Import(123, 'wrong'); }
 		catch(Dye\Error\InvalidColourFormat $Err) { }
 
 		$this->AssertInstanceOf(
 			Dye\Error\InvalidColourFormat::class, $Err
 		);
+
+		////////
+
+		$Err = NULL;
+
+		try { $C->Import(123); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class, $Err
+		);
+
 
 		return;
 	}
