@@ -773,6 +773,26 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
+	TestImmutableBasic():
+	void {
+
+		$R = new Dye\ColourImmutable('#FF0000');
+		$G = $R->HueRotate(120);
+		$B = $G->HueRotate(120);
+
+		$this->AssertNotEquals(spl_object_id($R), spl_object_id($G));
+		$this->AssertNotEquals(spl_object_id($G), spl_object_id($B));
+		$this->AssertNotEquals(spl_object_id($B), spl_object_id($R));
+
+		$this->AssertNotEquals($R->ToHexRGB(), $G->ToHexRGB());
+		$this->AssertNotEquals($G->ToHexRGB(), $B->ToHexRGB());
+		$this->AssertNotEquals($B->ToHexRGB(), $R->ToHexRGB());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
 	TestImmutable():
 	void {
 
