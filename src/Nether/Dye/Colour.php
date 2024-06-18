@@ -199,6 +199,50 @@ class Colour {
 	// COLOUR READING //////////////////////////////////////////////
 
 	public function
+	Import(mixed $Input):
+	static {
+
+		if(is_string($Input))
+		return $this->ImportString($Input);
+
+		throw new Error\InvalidColourFormat(
+			"{$Input} (try specific Import method)"
+		);
+
+		return $this;
+	}
+
+	protected function
+	ImportString(string $Input):
+	static {
+
+		$In = strtolower(trim($Input));
+
+		////////
+
+		match(TRUE) {
+			(str_starts_with($In, '#'))
+			=> $this->ImportHexString($In),
+
+			(str_starts_with($In, 'rgb('))
+			=> $this->ImportRGBA(...Util::FetchStyleBits3($In)),
+
+			(str_starts_with($In, 'rgba('))
+			=> $this->ImportRGBA(...Util::FetchStyleBits4($In)),
+
+			(str_starts_with($In, 'hsl('))
+			=> $this->ImportHSL(...Util::FetchStyleBits3($In)),
+
+			default
+			=> throw new Error\InvalidColourFormat($Input)
+		};
+
+		////////
+
+		return $this;
+	}
+
+	public function
 	ImportHexString(string $Hex):
 	static {
 
@@ -246,8 +290,11 @@ class Colour {
 	}
 
 	public function
-	ImportRGBA(int $R, int $G, int $B, int $A=255):
+	ImportRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
+
+		if(is_float($A))
+		$A = Util::ClampByte($A * Util::ByteMax);
 
 		$this->RGBA->Set($R, $G, $B, $A);
 		$this->UpdateFromRGBA();
@@ -387,7 +434,17 @@ class Colour {
 	}
 
 	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
+	// FACTORY API /////////////////////////////////////////////////
+
+	static public function
+	FromString(string $Input):
+	static {
+
+		$Output = new static;
+		$Output->ImportString($Input);
+
+		return $Output;
+	}
 
 	static public function
 	FromHexString(string $RGBa):
@@ -488,31 +545,6 @@ class Colour {
 		return $Output;
 	}
 
-	static public function
-	FromString(string $Input):
-	?static {
 
-		$Str = strtolower($Input);
-
-		////////
-
-		if(str_starts_with($Str, '#'))
-		return static::FromHexString($Str);
-
-		if(str_starts_with($Str, 'rgb('))
-		return static::FromStyleRGB($Str);
-
-		if(str_starts_with($Str, 'rgba('))
-		return static::FromStyleRGBA($Str);
-
-		if(str_starts_with($Str, 'hsl('))
-		return static::FromStyleHSL($Str);
-
-		////////
-
-		throw new \Exception('known colour string');
-
-		return NULL;
-	}
 
 };

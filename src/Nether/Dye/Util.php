@@ -86,4 +86,39 @@ class Util {
 		return $Wrapped;
 	}
 
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	static public function
+	FetchStyleBits3(string $Input):
+	?array {
+
+		$Found = NULL;
+		$Str = strtolower(trim($Input));
+		$Output = NULL;
+
+		////////
+
+		if(preg_match('/\(([\d\.]+), *?([\d\.]+), *?([\d\.]+)\)$/', $Str, $Found))
+		$Output = array_slice($Found, 1, 3);
+
+		return $Output;
+	}
+
+	static public function
+	FetchStyleBits4(string $Input):
+	?array {
+
+		$Found = NULL;
+		$Str = strtolower(trim($Input));
+		$Output = NULL;
+
+		////////
+
+		if(preg_match('/\(([\d\.]+), *?([\d\.]+), *?([\d\.]+), *?([\d\.]+)\)$/', $Str, $Found))
+		$Output = array_slice($Found, 1, 4);
+
+		return $Output;
+	}
+
 };

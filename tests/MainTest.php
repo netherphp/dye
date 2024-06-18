@@ -363,6 +363,31 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestFromYolo():
+	void {
+
+		$C = new Dye\Colour;
+
+		$C->Import('#FF0000');
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		$C->Import('#FF000088');
+		$this->AssertEquals('#FF000088', $C->ToHexRGBA());
+
+		$C->Import('rgb(0, 255, 0)');
+		$this->AssertEquals('#00FF00', $C->ToHexRGB());
+
+		$C->Import('rgba(0, 0, 255, 0.5)');
+		$this->AssertEquals('#0000FF7F', $C->ToHexRGBA());
+
+		$C->Import('hsl(0, 1.0, 0.5)');
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		return;
+	}
+
 	////////////////////////////////////////////////////////////////
 	// QUERY API ///////////////////////////////////////////////////
 
