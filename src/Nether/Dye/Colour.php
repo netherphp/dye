@@ -203,32 +203,36 @@ class Colour {
 	SetRGB(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
 	static {
 
-		$this->RGB->Set(
-			$R ?? $this->RGB->R(),
-			$G ?? $this->RGB->G(),
-			$B ?? $this->RGB->B(),
-			$A ?? $this->RGB->A()
+		$Out = $this->GetReturnTarget();
+
+		$Out->RGB->Set(
+			$R ?? $Out->RGB->R(),
+			$G ?? $Out->RGB->G(),
+			$B ?? $Out->RGB->B(),
+			$A ?? $Out->RGB->A()
 		);
 
-		$this->UpdateFromRGBA();
+		$Out->UpdateFromRGBA();
 
-		return $this;
+		return $Out;
 	}
 
 	public function
 	SetHSL(?int $H=NULL, ?float $S=NULL, ?float $L=NULL, ?float $A=NULL):
 	static {
 
-		$this->HSL->Set(
-			$H ?? $this->HSL->H,
-			$S ?? $this->HSL->S,
-			$L ?? $this->HSL->L,
-			$A ?? $this->HSL->A
+		$Out = $this->GetReturnTarget();
+
+		$Out->HSL->Set(
+			$H ?? $Out->HSL->H,
+			$S ?? $Out->HSL->S,
+			$L ?? $Out->HSL->L,
+			$A ?? $Out->HSL->A
 		);
 
-		$this->UpdateFromHSL();
+		$Out->UpdateFromHSL();
 
-		return $this;
+		return $Out;
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -329,7 +333,7 @@ class Colour {
 	ImportDigestObject(RGBA|HSLA $Input):
 	static {
 
-		match(TRUE) {
+		$Out = match(TRUE) {
 			($Input instanceof RGBA)
 			=> $this->ImportRGBA($Input->R(), $Input->G(), $Input->B(), $Input->A()),
 
@@ -340,7 +344,7 @@ class Colour {
 			=> new Error\InvalidColourFormat($Input, 'DigestObject')
 		};
 
-		return $this;
+		return $Out;
 	}
 
 	private function
@@ -351,7 +355,7 @@ class Colour {
 
 		////////
 
-		match(TRUE) {
+		$Out = match(TRUE) {
 			(str_starts_with($In, '#'))
 			=> $this->ImportHexString($In),
 
@@ -370,7 +374,7 @@ class Colour {
 
 		////////
 
-		return $this;
+		return $Out;
 	}
 
 	private function
@@ -524,7 +528,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->Import($Input);
+		$Output = $Output->Import($Input);
 
 		return $Output;
 	}
@@ -534,7 +538,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->ImportIntRGB($RGB);
+		$Output = $Output->ImportIntRGB($RGB);
 
 		return $Output;
 	}
@@ -544,7 +548,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->ImportIntRGBA($RGBA);
+		$Output = $Output->ImportIntRGBA($RGBA);
 
 		return $Output;
 	}
@@ -554,7 +558,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->ImportHSL($H, $S, $L, $A);
+		$Output = $Output->ImportHSL($H, $S, $L, $A);
 
 		return $Output;
 	}
@@ -564,7 +568,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->ImportRGBA($R, $G, $B, $A);
+		$Output = $Output->ImportRGBA($R, $G, $B, $A);
 
 		return $Output;
 	}

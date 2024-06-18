@@ -810,26 +810,44 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestImmutable():
+	TestImmutableMore():
 	void {
 
-		// normal is a mutable chain it edits itself returns itself.
+		$Methods = [
+			'Import'     => [ '#00FF00' ],
+			'Import_2'   => [ [ 1, 2, 3 ], Dye\Colour::TypeRGB ],
+			'Import_3'   => [ 0x0000FF, Dye\Colour::TypeRGB ],
+			'SetRGB'     => [ 1, 2, 3, 4 ],
+			'SetHSL'     => [ 10, 0.2, 0.3, 0.4 ],
+			'HueRotate'  => [ 120 ],
+			'HueShift'   => [ 0.25 ],
+			'Saturation' => [ 1.25 ],
+			'Saturate'   => [ 0.5 ],
+			'Desaturate' => [ 0.5 ],
+			'Lightness'  => [ 1.25 ],
+			'Lighten'    => [ 0.5 ],
+			'Darken'     => [ 0.5 ]
+		];
 
-		$C1 = Dye\Colour::From('#FF0000');
-		$C2 = $C1->HueRotate(120);
+		$BaseColour = '#FF0000';
+		$C1 = NULL;
+		$C2 = NULL;
+		$Method = NULL;
+		$Args = NULL;
 
-		$this->AssertTrue(
-			spl_object_id($C1) === spl_object_id($C2)
-		);
+		////////
 
-		// optional is immutable its edits return new copies instead.
+		foreach($Methods as $Method => $Args) {
+			$Method = rtrim($Method, '_0123456789');
 
-		$C1 = Dye\ColourImmutable::From('#FF0000');
-		$C2 = $C1->HueRotate(120);
+			$C1 = Dye\Colour::From($BaseColour);
+			$C2 = $C1->{$Method}(...$Args);
+			$this->AssertEquals(spl_object_id($C1), spl_object_id($C2));
 
-		$this->AssertTrue(
-			spl_object_id($C1) !== spl_object_id($C2)
-		);
+			$C1 = Dye\ColourImmutable::From($BaseColour);
+			$C2 = $C1->{$Method}(...$Args);
+			$this->AssertNotEquals(spl_object_id($C1), spl_object_id($C2));
+		}
 
 		return;
 	}
