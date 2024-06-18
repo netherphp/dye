@@ -341,6 +341,7 @@ extends PHPUnit\Framework\TestCase {
 		$RGB = NULL;
 		$Bits = NULL;
 		$C = NULL;
+		$Cobj = NULL;
 
 		////////
 
@@ -349,6 +350,13 @@ extends PHPUnit\Framework\TestCase {
 			$C = Dye\Colour::FromRGB($Bits[0], $Bits[1], $Bits[2]);
 			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
 			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
+
+			// cobj values
+			$Cobj = Dye\Colour::From($C->RGB);
+			$this->AssertEquals($Cobj->RGB->R(), $C->RGB->R());
+			$this->AssertEquals($Cobj->RGB->G(), $C->RGB->G());
+			$this->AssertEquals($Cobj->RGB->B(), $C->RGB->B());
+			$this->AssertEquals($Cobj->RGB->A(), $C->RGB->A());
 		}
 
 		foreach(static::SweepInt1F as $Key => $RGB) {
@@ -357,6 +365,8 @@ extends PHPUnit\Framework\TestCase {
 			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
 			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
 		}
+
+
 
 		return;
 	}
@@ -372,6 +382,7 @@ extends PHPUnit\Framework\TestCase {
 
 		$Chsl = NULL;
 		$Crgb = NULL;
+		$Cobj = NULL;
 
 		////////
 
@@ -391,6 +402,12 @@ extends PHPUnit\Framework\TestCase {
 			$this->AssertEqualsWithDelta($Crgb->RGB->B(), $Chsl->RGB->B(), $Fuzz);
 			$this->AssertEqualsWithDelta($Crgb->RGB->A(), $Chsl->RGB->A(), $Fuzz);
 
+			// cobj values
+			$Cobj = Dye\Colour::From($Chsl->RGB);
+			$this->AssertEquals($Cobj->RGB->R(), $Chsl->RGB->R());
+			$this->AssertEquals($Cobj->RGB->G(), $Chsl->RGB->G());
+			$this->AssertEquals($Cobj->RGB->B(), $Chsl->RGB->B());
+			$this->AssertEquals($Cobj->RGB->A(), $Chsl->RGB->A());
 		}
 
 		return;
@@ -830,32 +847,6 @@ extends PHPUnit\Framework\TestCase {
 
 		////////
 
-		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
-			[ 'R'=> $C->RGB->R(), 'G'=> $C->RGB->G(), 'B'=> $C->RGB->B(), 'A'=> $C->RGB->A() ],
-			$C->RGB->ToArray(),
-			[ 'R', 'G', 'B', 'A' ]
-		);
-
-		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
-			[ $C->RGB->R(), $C->RGB->G(), $C->RGB->B(), $C->RGB->A() ],
-			$C->RGB->ToArray(FALSE),
-			[ 0, 1, 2, 3 ]
-		);
-
-		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
-			[ 'H'=> $C->HSL->H(), 'S'=> $C->HSL->S(), 'L'=> $C->HSL->L(), 'A'=> $C->HSL->A() ],
-			$C->HSL->ToArray(),
-			[ 'H', 'S', 'L', 'A' ]
-		);
-
-		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
-			[ $C->HSL->H(), $C->HSL->S(), $C->HSL->L(), $C->HSL->A() ],
-			$C->HSL->ToArray(FALSE),
-			[ 0, 1, 2, 3 ]
-		);
-
-		////////
-
 		$this->AssertEquals(
 			static::NvyHex1,
 			$C->ToHexRGB()
@@ -879,6 +870,32 @@ extends PHPUnit\Framework\TestCase {
 		$this->AssertEquals(
 			sprintf('rgba(%d, %d, %d, 1.00)', $RGB[0], $RGB[1], $RGB[2]),
 			$C->ToStyleRGBA()
+		);
+
+		////////
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ 'R'=> $C->RGB->R(), 'G'=> $C->RGB->G(), 'B'=> $C->RGB->B(), 'A'=> $C->RGB->A() ],
+			$C->RGB->ToArray(),
+			[ 'R', 'G', 'B', 'A' ]
+		);
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ $C->RGB->R(), $C->RGB->G(), $C->RGB->B(), $C->RGB->A() ],
+			$C->RGB->ToArray(FALSE),
+			[ 0, 1, 2, 3 ]
+		);
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ 'H'=> $C->HSL->H(), 'S'=> $C->HSL->S(), 'L'=> $C->HSL->L(), 'A'=> $C->HSL->A() ],
+			$C->HSL->ToArray(),
+			[ 'H', 'S', 'L', 'A' ]
+		);
+
+		$this->AssertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+			[ $C->HSL->H(), $C->HSL->S(), $C->HSL->L(), $C->HSL->A() ],
+			$C->HSL->ToArray(FALSE),
+			[ 0, 1, 2, 3 ]
 		);
 
 		return;
