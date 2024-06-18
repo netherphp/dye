@@ -76,7 +76,6 @@ class HSLA {
 		return $this->A;
 	}
 
-
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
@@ -104,6 +103,23 @@ class HSLA {
 
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
+
+	public function
+	ToArray(bool $Indexed=TRUE):
+	array {
+
+		$Output = [
+			'H'=> $this->H,
+			'S'=> $this->S,
+			'L'=> $this->L,
+			'A'=> $this->A
+		];
+
+		if(!$Indexed)
+		$Output = array_values($Output);
+
+		return $Output;
+	}
 
 	public function
 	ToStyleHSL():

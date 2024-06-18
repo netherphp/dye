@@ -188,6 +188,23 @@ class RGBA {
 	////////////////////////////////////////////////////////////////
 
 	public function
+	ToArray(bool $Indexed=TRUE):
+	array {
+
+		$Output = [
+			'R'=> $this->R,
+			'G'=> $this->G,
+			'B'=> $this->B,
+			'A'=> $this->A
+		];
+
+		if(!$Indexed)
+		$Output = array_values($Output);
+
+		return $Output;
+	}
+
+	public function
 	ToHexRGB():
 	string {
 

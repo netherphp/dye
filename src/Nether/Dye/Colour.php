@@ -26,7 +26,7 @@ class Colour {
 	////////////////////////////////////////////////////////////////
 
 	public function
-	__Construct(string|int|array|RGBA|HSLA|NULL $Input=NULL, ?string $Type=NULL) {
+	__Construct(string|RGBA|HSLA|NULL $Input=NULL) {
 
 		$this->RGB = new RGBA;
 		$this->HSL = new HSLA;
@@ -34,7 +34,7 @@ class Colour {
 		////////
 
 		if($Input !== NULL)
-		$this->Import($Input, $Type);
+		$this->Import($Input);
 
 		////////
 
@@ -200,7 +200,7 @@ class Colour {
 	////////////////////////////////
 
 	public function
-	SetRGBA(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
+	SetRGB(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
 	static {
 
 		$this->RGB->Set(
@@ -300,7 +300,7 @@ class Colour {
 	// COLOUR READING //////////////////////////////////////////////
 
 	public function
-	Import(string|int|array|Format\RGBA|Format\HSLA $Input, ?string $Type=NULL):
+	Import(string|int|array|RGBA|HSLA $Input, ?string $Type=NULL):
 	?static {
 
 		if(is_string($Input))
@@ -326,14 +326,14 @@ class Colour {
 	}
 
 	private function
-	ImportDigestObject(Format\RGBA|Format\HSLA $Input):
+	ImportDigestObject(RGBA|HSLA $Input):
 	static {
 
 		match(TRUE) {
-			($Input instanceof Format\RGBA)
+			($Input instanceof RGBA)
 			=> $this->ImportRGBA($Input->R(), $Input->G(), $Input->B(), $Input->A()),
 
-			($Input instanceof Format\HSLA)
+			($Input instanceof HSLA)
 			=> $this->ImportHSL($Input->H, $Input->S, $Input->L),
 
 			default
@@ -520,7 +520,7 @@ class Colour {
 	// FACTORY API /////////////////////////////////////////////////
 
 	static public function
-	From(string $Input):
+	From(string|RGBA|HSLA $Input):
 	static {
 
 		$Output = new static;
@@ -550,17 +550,17 @@ class Colour {
 	}
 
 	static public function
-	FromHSL(int $H, float $S, float $L):
+	FromHSL(int $H, float $S, float $L, float $A=1.0):
 	static {
 
 		$Output = new static;
-		$Output->ImportHSL($H, $S, $L);
+		$Output->ImportHSL($H, $S, $L, $A);
 
 		return $Output;
 	}
 
 	static public function
-	FromRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
+	FromRGB(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
 
 		$Output = new static;

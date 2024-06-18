@@ -346,14 +346,14 @@ extends PHPUnit\Framework\TestCase {
 
 		foreach(static::SweepInt1 as $Key => $RGB) {
 			$Bits = Dye\Util::DecToBitsRGB($RGB);
-			$C = Dye\Colour::FromRGBA($Bits[0], $Bits[1], $Bits[2]);
+			$C = Dye\Colour::FromRGB($Bits[0], $Bits[1], $Bits[2]);
 			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
 			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
 		}
 
 		foreach(static::SweepInt1F as $Key => $RGB) {
 			$Bits = Dye\Util::DecToBitsRGBA($RGB);
-			$C = Dye\Colour::FromRGBA($Bits[0], $Bits[1], $Bits[2], $Bits[3]);
+			$C = Dye\Colour::FromRGB($Bits[0], $Bits[1], $Bits[2], $Bits[3]);
 			$this->AssertEquals(static::SweepInt1[$Key], $C->ToIntRGB());
 			$this->AssertEquals(static::SweepInt1F[$Key], $C->ToIntRGBA());
 		}
@@ -716,30 +716,30 @@ extends PHPUnit\Framework\TestCase {
 		$C = Dye\Colour::From('#000000');
 		$this->AssertEquals('#000000', $C->ToHexRGB());
 
-		$C->SetRGBA(1, 2, 3, 4);
+		$C->SetRGB(1, 2, 3, 4);
 		$this->AssertEquals('#01020304', $C->ToHexRGBA());
 
-		$C->SetRGBA(R: 0xA1);
+		$C->SetRGB(R: 0xA1);
 		$this->AssertEquals('#A1020304', $C->ToHexRGBA());
 
-		$C->SetRGBA(G: 0xB1);
+		$C->SetRGB(G: 0xB1);
 		$this->AssertEquals('#A1B10304', $C->ToHexRGBA());
 
-		$C->SetRGBA(B: 0xC1);
+		$C->SetRGB(B: 0xC1);
 		$this->AssertEquals('#A1B1C104', $C->ToHexRGBA());
 
-		$C->SetRGBA(A: 0xD1);
+		$C->SetRGB(A: 0xD1);
 		$this->AssertEquals('#A1B1C1D1', $C->ToHexRGBA());
 
 		// and i mean some crazy shit that you could be dumping into here
 		// hapzichordicandantly.
 
-		$C->SetRGBA(...[ 'R'=> 0xBA, 'G'=> 0xBB ]);
+		$C->SetRGB(...[ 'R'=> 0xBA, 'G'=> 0xBB ]);
 		$this->AssertEquals('#BABBC1D1', $C->ToHexRGBA());
 
 		// test that alpha is biscalar
 
-		$C->SetRGBA(A: 0.5);
+		$C->SetRGB(A: 0.5);
 		$this->AssertEquals('#BABBC17F', $C->ToHexRGBA());
 
 		return;
