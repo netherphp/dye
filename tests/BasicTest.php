@@ -158,6 +158,30 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
+	TestMethodsFormatRGBA():
+	void {
+
+		$Fmt = new Dye\Format\RGBA;
+		$this->AssertEquals(0, $Fmt->R());
+
+		$Fmt->R(1);
+		$Fmt->G(2);
+		$Fmt->B(3);
+		$Fmt->A(4);
+
+		$this->AssertEquals(1, $Fmt->R());
+		$this->AssertEquals(2, $Fmt->G());
+		$this->AssertEquals(3, $Fmt->B());
+		$this->AssertEquals(4, $Fmt->A());
+
+		return;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
 	TestFormatValidArrayRGBA():
 	void {
 
