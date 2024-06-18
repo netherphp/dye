@@ -716,6 +716,11 @@ extends PHPUnit\Framework\TestCase {
 		$C->SetRGBA(...[ 'R'=> 0xBA, 'G'=> 0xBB ]);
 		$this->AssertEquals('#BABBC1D1', $C->ToHexRGBA());
 
+		// test that alpha is biscalar
+
+		$C->SetRGBA(A: 0.5);
+		$this->AssertEquals('#BABBC17F', $C->ToHexRGBA());
+
 		return;
 	}
 
