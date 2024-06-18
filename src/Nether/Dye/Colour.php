@@ -26,7 +26,7 @@ class Colour {
 	////////////////////////////////////////////////////////////////
 
 	public function
-	__Construct(string|int|array|RGBA|HSL|NULL $Input=NULL) {
+	__Construct(string|int|array|RGBA|HSL|NULL $Input=NULL, ?string $Type=NULL) {
 
 		$this->RGBA = new RGBA;
 		$this->HSL = new HSL;
@@ -34,7 +34,7 @@ class Colour {
 		////////
 
 		if($Input !== NULL)
-		$this->Import($Input);
+		$this->Import($Input, $Type);
 
 		////////
 
@@ -553,8 +553,20 @@ class Colour {
 	// FACTORY API /////////////////////////////////////////////////
 
 	static public function
+	From(string $Input):
+	static {
+
+		$Output = new static;
+		$Output->Import($Input);
+
+		return $Output;
+	}
+
+	static public function
 	FromString(string $Input):
 	static {
+
+		// delete this one
 
 		$Output = new static;
 		$Output->Import($Input);
