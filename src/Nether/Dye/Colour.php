@@ -77,6 +77,20 @@ class Colour {
 		return $this->HSL->L;
 	}
 
+	public function
+	IsBright():
+	bool {
+
+		return $this->RGBA->CalcPercIsBright();
+	}
+
+	public function
+	IsDark():
+	bool {
+
+		return $this->RGBA->CalcPercIsDark();
+	}
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
@@ -327,6 +341,34 @@ class Colour {
 			| ($this->RGBA->B << 8)
 			| ($this->RGBA->A)
 		);
+	}
+
+	public function
+	ToStyleHSL():
+	string {
+
+		$Output = sprintf(
+			'hsl(%d, %.4f, %.4f)',
+			$this->HSL->H,
+			$this->HSL->S,
+			$this->HSL->L
+		);
+
+		return $Output;
+	}
+
+	public function
+	ToStyleRGB():
+	string {
+
+		$Output = sprintf(
+			'hsl(%d, %d, %d)',
+			$this->RGBA->R,
+			$this->RGBA->G,
+			$this->RGBA->B
+		);
+
+		return $Output;
 	}
 
 	////////////////////////////////////////////////////////////////

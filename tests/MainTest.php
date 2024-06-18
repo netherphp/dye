@@ -264,7 +264,7 @@ extends PHPUnit\Framework\TestCase {
 	TestFromHSL():
 	void {
 
-		$Fuzz = 2.25;
+		$Fuzz = 2;
 		$Key = NULL;
 		$HSL = NULL;
 
@@ -358,6 +358,22 @@ extends PHPUnit\Framework\TestCase {
 
 		$Col->HueShift(-0.3334 * 4);
 		$this->AssertEquals(0, $Col->H());
+
+		return;
+	}
+
+	##[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestSaturationShift():
+	void {
+
+		$C = Dye\Colour::FromHexString('#FF0000');
+		$C->Saturation(0.5);
+
+		$this->AssertEquals(
+			'#880000',
+			$C->ToHexRGB()
+		);
 
 		return;
 	}

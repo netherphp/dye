@@ -106,7 +106,7 @@ class RGBA {
 		);
 
 		$RGB = array_map(
-			fn(float $V)=> Dye\Util::ClampByte(round(($V * 255), 0)),
+			fn(float $V)=> Dye\Util::ClampByte(round((round($V, 2) * 255), 0)),
 			$RGB
 		);
 
@@ -133,6 +133,44 @@ class RGBA {
 		$this->A = Dye\Util::ClampByte($A);
 
 		return $this;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
+	CalcPercBrightness():
+	float {
+
+		// implemented from: https://alienryderflex.com/hsp.html
+
+		return sqrt(0
+			+ (0.299 * pow($this->R, 2))
+			+ (0.587 * pow($this->G, 2))
+			+ (0.114 * pow($this->B, 2))
+		);
+	}
+
+	public function
+	CalcPercIsBright():
+	bool {
+
+		// implemented from: https://awik.io/determine-color-bright-dark-using-javascript/
+
+		$PB = $this->CalcPercBrightness();
+
+		return $PB > 127.5;
+	}
+
+	public function
+	CalcPercIsDark():
+	bool {
+
+		// implemented from: https://awik.io/determine-color-bright-dark-using-javascript/
+
+		$PB = $this->CalcPercBrightness();
+
+		return $PB <= 127.5;
 	}
 
 };
