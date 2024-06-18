@@ -414,6 +414,7 @@ extends PHPUnit\Framework\TestCase {
 	void {
 
 		$C = Dye\Colour::FromHexString('#FF0000');
+
 		$C->Lightness(0.5);
 		$this->AssertEquals('#800000', $C->ToHexRGB());
 
@@ -422,6 +423,38 @@ extends PHPUnit\Framework\TestCase {
 
 		$C->Lightness(0.0);
 		$this->AssertEquals('#000000', $C->ToHexRGB());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestDarkenLighten():
+	void {
+
+		$C = Dye\Colour::FromHexString('#FF0000');
+
+		$C->Darken(0.5);
+		$this->AssertEquals('#800000', $C->ToHexRGB());
+
+		$C->Lighten(1.0);
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestLightenDarken():
+	void {
+
+		$C = Dye\Colour::FromHexString('#FF0000');
+
+		$C->Lighten(0.5);
+		$this->AssertEquals('#FF8080', $C->ToHexRGB());
+
+		$C->Darken(0.3334);
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
 
 		return;
 	}
