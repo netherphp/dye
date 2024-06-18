@@ -378,4 +378,38 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
+	////////////////////////////////////////////////////////////////
+	// TO STRING API ///////////////////////////////////////////////
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestToStyles():
+	void {
+
+		$C = Dye\Colour::FromIntRGB(static::NvyInt1);
+		$RGB = Dye\Util::DecToBitsRGB(static::NvyInt1);
+
+		$this->AssertEquals(
+			static::NvyHex1,
+			$C->ToHexRGB()
+		);
+
+		$this->AssertEquals(
+			sprintf('hsl(%d, %.2f, %.2f)', static::NvyHSL1[0], static::NvyHSL1[1], static::NvyHSL1[2]),
+			$C->ToStyleHSL()
+		);
+
+		$this->AssertEquals(
+			sprintf('rgb(%d, %d, %d)', $RGB[0], $RGB[1], $RGB[2]),
+			$C->ToStyleRGB()
+		);
+
+		$this->AssertEquals(
+			sprintf('rgba(%d, %d, %d, 1.00)', $RGB[0], $RGB[1], $RGB[2]),
+			$C->ToStyleRGBA()
+		);
+
+		return;
+	}
+
 };

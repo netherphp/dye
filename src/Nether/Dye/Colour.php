@@ -348,7 +348,7 @@ class Colour {
 	string {
 
 		$Output = sprintf(
-			'hsl(%d, %.4f, %.4f)',
+			'hsl(%d, %.2f, %.2f)',
 			$this->HSL->H,
 			$this->HSL->S,
 			$this->HSL->L
@@ -362,10 +362,25 @@ class Colour {
 	string {
 
 		$Output = sprintf(
-			'hsl(%d, %d, %d)',
+			'rgb(%d, %d, %d)',
 			$this->RGBA->R,
 			$this->RGBA->G,
 			$this->RGBA->B
+		);
+
+		return $Output;
+	}
+
+	public function
+	ToStyleRGBA():
+	string {
+
+		$Output = sprintf(
+			'rgba(%d, %d, %d, %.2f)',
+			$this->RGBA->R,
+			$this->RGBA->G,
+			$this->RGBA->B,
+			Util::ClampNormal($this->RGBA->A / Util::ByteMax)
 		);
 
 		return $Output;
