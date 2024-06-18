@@ -10,16 +10,16 @@ use Nether\Dye;
 
 class RGBA {
 
-	public int
+	protected int
 	$R = 0;
 
-	public int
+	protected int
 	$B = 0;
 
-	public int
+	protected int
 	$G = 0;
 
-	public int
+	protected int
 	$A = Dye\Util::ByteMax;
 
 	////////////////////////////////////////////////////////////////
@@ -34,6 +34,40 @@ class RGBA {
 		$this->A = $A;
 
 		return;
+	}
+
+	public function
+	R():
+	int {
+
+		return $this->R;
+	}
+
+	public function
+	G():
+	int {
+
+		return $this->G;
+	}
+
+	public function
+	B():
+	int {
+
+		return $this->B;
+	}
+
+	public function
+	A(int|float|NULL $A=NULL):
+	int {
+
+		if(is_float($A))
+		$A = (int)round($A, 0);
+
+		if($A !== NULL)
+		$this->A = Dye\Util::ClampByte($A);
+
+		return $this->A;
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -53,7 +87,7 @@ class RGBA {
 	}
 
 	public function
-	ImportHSL(HSL $HSL):
+	ImportHSL(HSLA $HSL):
 	static {
 
 		// none of this was straight forward math. it was written by
@@ -126,7 +160,7 @@ class RGBA {
 
 		$this->Set(
 			$RGB[0], $RGB[1], $RGB[2],
-			Dye\Util::ByteMax
+			$HSL->A
 		);
 
 		return $this;

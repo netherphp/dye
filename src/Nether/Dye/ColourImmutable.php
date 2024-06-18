@@ -14,7 +14,7 @@ extends Colour {
 	static {
 
 		$Output = new static;
-		$Output->RGBA->ImportRGBA($this->RGBA);
+		$Output->RGB->ImportRGBA($this->RGB);
 		$Output->UpdateFromRGBA();
 
 		return $Output;

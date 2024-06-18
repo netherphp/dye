@@ -129,13 +129,13 @@ extends PHPUnit\Framework\TestCase {
 		////////
 
 		foreach(static::SweepRGB1 as $Key => $RGB) {
-			$C = Dye\Colour::FromString($RGB);
+			$C = Dye\Colour::From($RGB);
 			$this->AssertEquals(static::SweepRGB1[$Key], $C->ToHexRGB());
 			$this->AssertEquals(static::SweepRGB1F[$Key], $C->ToHexRGBA());
 		}
 
 		foreach(static::SweepRGB1F as $Key => $RGB) {
-			$C = Dye\Colour::FromString($RGB);
+			$C = Dye\Colour::From($RGB);
 			$this->AssertEquals(static::SweepRGB1[$Key], $C->ToHexRGB());
 			$this->AssertEquals(static::SweepRGB1F[$Key], $C->ToHexRGBA());
 		}
@@ -156,8 +156,8 @@ extends PHPUnit\Framework\TestCase {
 		////////
 
 		foreach(static::SweepRGB1 as $RGB) {
-			$T = Dye\Colour::FromString($RGB);
-			$C = Dye\Colour::FromString($T->ToStyleRGB());
+			$T = Dye\Colour::From($RGB);
+			$C = Dye\Colour::From($T->ToStyleRGB());
 
 			$this->AssertEquals($T->ToHexRGB(), $C->ToHexRGB());
 			$this->AssertEquals($T->ToHexRGBA(), $C->ToHexRGBA());
@@ -165,7 +165,7 @@ extends PHPUnit\Framework\TestCase {
 
 		////////
 
-		try { Dye\Colour::FromString('jljjaf'); }
+		try { Dye\Colour::From('jljjaf'); }
 		catch(Dye\Error\InvalidColourFormat $Err) { }
 
 		$this->AssertInstanceOf(
@@ -189,8 +189,8 @@ extends PHPUnit\Framework\TestCase {
 		////////
 
 		foreach(static::SweepRGB1 as $RGB) {
-			$T = Dye\Colour::FromString($RGB);
-			$C = Dye\Colour::FromString($T->ToStyleRGBA());
+			$T = Dye\Colour::From($RGB);
+			$C = Dye\Colour::From($T->ToStyleRGBA());
 
 			$this->AssertEquals($T->ToHexRGB(), $C->ToHexRGB());
 			$this->AssertEquals($T->ToHexRGBA(), $C->ToHexRGBA());
@@ -198,7 +198,7 @@ extends PHPUnit\Framework\TestCase {
 
 		////////
 
-		try { Dye\Colour::FromString('jljjaf'); }
+		try { Dye\Colour::From('jljjaf'); }
 		catch(Dye\Error\InvalidColourFormat $Err) { }
 
 		$this->AssertInstanceOf(
@@ -223,8 +223,8 @@ extends PHPUnit\Framework\TestCase {
 		////////
 
 		foreach(static::SweepRGB1 as $RGB) {
-			$T = Dye\Colour::FromString($RGB);
-			$C = Dye\Colour::FromString($T->ToStyleHSL());
+			$T = Dye\Colour::From($RGB);
+			$C = Dye\Colour::From($T->ToStyleHSL());
 
 			$this->AssertEqualsWithDelta($T->R(), $C->R(), $Fuzz);
 			$this->AssertEqualsWithDelta($T->G(), $C->G(), $Fuzz);
@@ -234,7 +234,7 @@ extends PHPUnit\Framework\TestCase {
 
 		////////
 
-		try { Dye\Colour::FromString('jljjaf'); }
+		try { Dye\Colour::From('jljjaf'); }
 		catch(Dye\Error\InvalidColourFormat $Err) { }
 
 		$this->AssertInstanceOf(
@@ -253,11 +253,11 @@ extends PHPUnit\Framework\TestCase {
 		$Short = [ '#123', '#1234' ];
 		$Long = [ '#112233', '#11223344' ];
 
-		$C = Dye\Colour::FromString($Short[0]);
+		$C = Dye\Colour::From($Short[0]);
 		$this->AssertEquals($Long[0], $C->ToHexRGB());
 		$this->AssertEquals("{$Long[0]}FF", $C->ToHexRGBA());
 
-		$C = Dye\Colour::FromString($Short[1]);
+		$C = Dye\Colour::From($Short[1]);
 		$this->AssertEquals($Long[0], $C->ToHexRGB());
 		$this->AssertEquals($Long[1], $C->ToHexRGBA());
 
@@ -274,7 +274,7 @@ extends PHPUnit\Framework\TestCase {
 		$Err = NULL;
 		$Exp = FALSE;
 
-		try { Dye\Colour::FromString('#OK'); }
+		try { Dye\Colour::From('#OK'); }
 		catch(\Throwable $Err) {
 			$Exp = TRUE;
 			$this->AssertInstanceOf(\Exception::class, $Err);
@@ -295,7 +295,7 @@ extends PHPUnit\Framework\TestCase {
 		$Err = NULL;
 		$Exp = FALSE;
 
-		try { Dye\Colour::FromString('#Ad'); }
+		try { Dye\Colour::From('#Ad'); }
 		catch(\Throwable $Err) {
 			$Exp = TRUE;
 			$this->AssertInstanceOf(\Exception::class, $Err);
@@ -385,7 +385,7 @@ extends PHPUnit\Framework\TestCase {
 			$this->AssertEquals(255, $Chsl->A());
 
 			// sanity check rgb values
-			$Crgb = Dye\Colour::FromString(static::SweepRGB1[$Key]);
+			$Crgb = Dye\Colour::From(static::SweepRGB1[$Key]);
 			$this->AssertEqualsWithDelta($Crgb->R(), $Chsl->R(), $Fuzz);
 			$this->AssertEqualsWithDelta($Crgb->G(), $Chsl->G(), $Fuzz);
 			$this->AssertEqualsWithDelta($Crgb->B(), $Chsl->B(), $Fuzz);
@@ -410,7 +410,7 @@ extends PHPUnit\Framework\TestCase {
 		$C->Import('#FF0000');
 		$this->AssertEquals('#FF0000', $C->ToHexRGB());
 
-		$N = Dye\Colour::FromString($C->ToHexRGB());
+		$N = Dye\Colour::From($C->ToHexRGB());
 		$this->AssertEquals('#FF0000', $N->ToHexRGB());
 
 		// ...
@@ -531,7 +531,7 @@ extends PHPUnit\Framework\TestCase {
 		////////
 
 		foreach($Colours as $Colour => $Bright) {
-			$C = Dye\Colour::FromString($Colour);
+			$C = Dye\Colour::From($Colour);
 			$this->AssertEquals($Bright, $C->IsBright());
 			$this->AssertEquals(!$Bright, $C->IsDark());
 		}
@@ -612,7 +612,7 @@ extends PHPUnit\Framework\TestCase {
 	TestSaturationShift():
 	void {
 
-		$C = Dye\Colour::FromString('#FF0000');
+		$C = Dye\Colour::From('#FF0000');
 		$C->Saturation(0.5);
 		$this->AssertEquals('#BF4040', $C->ToHexRGB());
 
@@ -630,7 +630,7 @@ extends PHPUnit\Framework\TestCase {
 	TestLightnessShift():
 	void {
 
-		$C = Dye\Colour::FromString('#FF0000');
+		$C = Dye\Colour::From('#FF0000');
 
 		$C->Lightness(0.5);
 		$this->AssertEquals('#800000', $C->ToHexRGB());
@@ -649,7 +649,7 @@ extends PHPUnit\Framework\TestCase {
 	TestDarkenLighten():
 	void {
 
-		$C = Dye\Colour::FromString('#FF0000');
+		$C = Dye\Colour::From('#FF0000');
 
 		$C->Darken(0.5);
 		$this->AssertEquals('#800000', $C->ToHexRGB());
@@ -665,7 +665,7 @@ extends PHPUnit\Framework\TestCase {
 	TestLightenDarken():
 	void {
 
-		$C = Dye\Colour::FromString('#FF0000');
+		$C = Dye\Colour::From('#FF0000');
 
 		$C->Lighten(0.5);
 		$this->AssertEquals('#FF8080', $C->ToHexRGB());
@@ -681,7 +681,7 @@ extends PHPUnit\Framework\TestCase {
 	TestDesatSat():
 	void {
 
-		$C = Dye\Colour::FromString('#FF0000');
+		$C = Dye\Colour::From('#FF0000');
 
 		$C->Desaturate(0.5);
 		$this->AssertEquals('#BF4040', $C->ToHexRGB());
@@ -697,7 +697,7 @@ extends PHPUnit\Framework\TestCase {
 	TestSatDesat():
 	void {
 
-		$C = Dye\Colour::FromString('#BF4040');
+		$C = Dye\Colour::From('#BF4040');
 
 		$C->Saturate(1.0);
 		$this->AssertEquals('#FF0000', $C->ToHexRGB());
@@ -713,7 +713,7 @@ extends PHPUnit\Framework\TestCase {
 	TestSetRGBA():
 	void {
 
-		$C = Dye\Colour::FromString('#000000');
+		$C = Dye\Colour::From('#000000');
 		$this->AssertEquals('#000000', $C->ToHexRGB());
 
 		$C->SetRGBA(1, 2, 3, 4);
@@ -750,7 +750,7 @@ extends PHPUnit\Framework\TestCase {
 	TestSetHSL():
 	void {
 
-		$C = Dye\Colour::FromString('#000000');
+		$C = Dye\Colour::From('#000000');
 		$this->AssertEquals('#000000', $C->ToHexRGB());
 
 		$C->SetHSL(120, 1.0, 0.5);
@@ -778,7 +778,7 @@ extends PHPUnit\Framework\TestCase {
 
 		// normal is a mutable chain it edits itself returns itself.
 
-		$C1 = Dye\Colour::FromString('#FF0000');
+		$C1 = Dye\Colour::From('#FF0000');
 		$C2 = $C1->HueRotate(120);
 
 		$this->AssertTrue(
@@ -787,7 +787,7 @@ extends PHPUnit\Framework\TestCase {
 
 		// optional is immutable its edits return new copies instead.
 
-		$C1 = Dye\ColourImmutable::FromString('#FF0000');
+		$C1 = Dye\ColourImmutable::From('#FF0000');
 		$C2 = $C1->HueRotate(120);
 
 		$this->AssertTrue(

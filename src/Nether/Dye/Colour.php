@@ -4,7 +4,7 @@
 namespace Nether\Dye;
 
 use Nether\Dye\Format\RGBA;
-use Nether\Dye\Format\HSL;
+use Nether\Dye\Format\HSLA;
 
 ################################################################################
 ################################################################################
@@ -17,19 +17,19 @@ class Colour {
 	TypeHSL  = 'hsl';
 
 	protected Format\RGBA
-	$RGBA;
+	$RGB;
 
-	protected Format\HSL
+	protected Format\HSLA
 	$HSL;
 
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
 	public function
-	__Construct(string|int|array|RGBA|HSL|NULL $Input=NULL, ?string $Type=NULL) {
+	__Construct(string|int|array|RGBA|HSLA|NULL $Input=NULL, ?string $Type=NULL) {
 
-		$this->RGBA = new RGBA;
-		$this->HSL = new HSL;
+		$this->RGB = new RGBA;
+		$this->HSL = new HSLA;
 
 		////////
 
@@ -55,28 +55,28 @@ class Colour {
 	R():
 	int {
 
-		return $this->RGBA->R;
+		return $this->RGB->R();
 	}
 
 	public function
 	G():
 	int {
 
-		return $this->RGBA->G;
+		return $this->RGB->G();
 	}
 
 	public function
 	B():
 	int {
 
-		return $this->RGBA->B;
+		return $this->RGB->B();
 	}
 
 	public function
 	A():
 	int {
 
-		return $this->RGBA->A;
+		return $this->RGB->A();
 	}
 
 	public function
@@ -104,14 +104,14 @@ class Colour {
 	IsBright():
 	bool {
 
-		return $this->RGBA->IsBright();
+		return $this->RGB->IsBright();
 	}
 
 	public function
 	IsDark():
 	bool {
 
-		return $this->RGBA->IsDark();
+		return $this->RGB->IsDark();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -252,11 +252,11 @@ class Colour {
 	SetRGBA(?int $R=NULL, ?int $G=NULL, ?int $B=NULL, int|float|NULL $A=NULL):
 	static {
 
-		$this->RGBA->Set(
-			$R ?? $this->RGBA->R,
-			$G ?? $this->RGBA->G,
-			$B ?? $this->RGBA->B,
-			$A ?? $this->RGBA->A
+		$this->RGB->Set(
+			$R ?? $this->RGB->R(),
+			$G ?? $this->RGB->G(),
+			$B ?? $this->RGB->B(),
+			$A ?? $this->RGB->A()
 		);
 
 		$this->UpdateFromRGBA();
@@ -265,13 +265,14 @@ class Colour {
 	}
 
 	public function
-	SetHSL(?int $H=NULL, ?float $S=NULL, ?float $L=NULL):
+	SetHSL(?int $H=NULL, ?float $S=NULL, ?float $L=NULL, ?float $A=NULL):
 	static {
 
 		$this->HSL->Set(
 			$H ?? $this->HSL->H,
 			$S ?? $this->HSL->S,
-			$L ?? $this->HSL->L
+			$L ?? $this->HSL->L,
+			$A ?? $this->HSL->A
 		);
 
 		$this->UpdateFromHSL();
@@ -286,14 +287,14 @@ class Colour {
 	ToHexRGB():
 	string {
 
-		return $this->RGBA->ToHexRGB();
+		return $this->RGB->ToHexRGB();
 	}
 
 	public function
 	ToHexRGBA():
 	string {
 
-		return $this->RGBA->ToHexRGBA();
+		return $this->RGB->ToHexRGBA();
 	}
 
 	////////////////////////////////
@@ -303,14 +304,14 @@ class Colour {
 	ToIntRGB():
 	int {
 
-		return $this->RGBA->ToIntRGB();
+		return $this->RGB->ToIntRGB();
 	}
 
 	public function
 	ToIntRGBA():
 	int {
 
-		return $this->RGBA->ToIntRGBA();
+		return $this->RGB->ToIntRGBA();
 	}
 
 	////////////////////////////////
@@ -327,24 +328,22 @@ class Colour {
 	ToStyleRGB():
 	string {
 
-		return $this->RGBA->ToStyleRGB();
+		return $this->RGB->ToStyleRGB();
 	}
 
 	public function
 	ToStyleRGBA():
 	string {
 
-		return $this->RGBA->ToStyleRGBA();
+		return $this->RGB->ToStyleRGBA();
 	}
 
 	////////////////////////////////////////////////////////////////
 	// COLOUR READING //////////////////////////////////////////////
 
 	public function
-	Import(string|int|array|Format\RGBA|Format\HSL $Input, ?string $Type=NULL):
-	static {
-
-		$Out = $this->GetReturnTarget();
+	Import(string|int|array|Format\RGBA|Format\HSLA $Input, ?string $Type=NULL):
+	?static {
 
 		if(is_string($Input))
 		return $this->ImportDigestString($Input);
@@ -365,19 +364,18 @@ class Colour {
 		////////
 
 		throw new Error\InvalidColourFormat($Input, 'try specific Import* method');
-
-		return $Out;
+		return NULL;
 	}
 
 	private function
-	ImportDigestObject(Format\RGBA|Format\HSL $Input):
+	ImportDigestObject(Format\RGBA|Format\HSLA $Input):
 	static {
 
 		match(TRUE) {
 			($Input instanceof Format\RGBA)
-			=> $this->ImportRGBA($Input->R, $Input->G, $Input->B, $Input->A),
+			=> $this->ImportRGBA($Input->R(), $Input->G(), $Input->B(), $Input->A()),
 
-			($Input instanceof Format\HSL)
+			($Input instanceof Format\HSLA)
 			=> $this->ImportHSL($Input->H, $Input->S, $Input->L),
 
 			default
@@ -474,7 +472,7 @@ class Colour {
 
 		////////
 
-		$Out->RGBA->ImportArrayRGBA(match(TRUE) {
+		$Out->RGB->ImportArrayRGBA(match(TRUE) {
 			($Len === 8) => Util::DecToBitsRGBA(hexdec($Hex)),
 			($Len === 6) => [ ...Util::DecToBitsRGB(hexdec($Hex)), 0xFF ],
 			($Len === 4) => Util::ShortToBitsRGBA(hexdec($Hex)),
@@ -495,7 +493,7 @@ class Colour {
 
 		$Out = $this->GetReturnTarget();
 
-		$Out->RGBA->ImportArrayRGBA(Util::DecToBitsRGB($Int));
+		$Out->RGB->ImportArrayRGBA(Util::DecToBitsRGB($Int));
 		$Out->UpdateFromRGBA();
 
 		return $Out;
@@ -507,7 +505,7 @@ class Colour {
 
 		$Out = $this->GetReturnTarget();
 
-		$Out->RGBA->ImportArrayRGBA(Util::DecToBitsRGBA($Int));
+		$Out->RGB->ImportArrayRGBA(Util::DecToBitsRGBA($Int));
 		$Out->UpdateFromRGBA();
 
 		return $Out;
@@ -519,20 +517,20 @@ class Colour {
 
 		$Out = $this->GetReturnTarget();
 
-		$Out->RGBA->Set($R, $G, $B, $A);
+		$Out->RGB->Set($R, $G, $B, $A);
 		$Out->UpdateFromRGBA();
 
 		return $Out;
 	}
 
 	private function
-	ImportHSL(int $H, float $S, float $L):
+	ImportHSL(int $H, float $S, float $L, float $A=1.0):
 	static {
 
 		$Out = $this->GetReturnTarget();
 
-		$Out->HSL->Set($H, $S, $L);
-		$Out->RGBA->A = 0xFF;
+		$Out->HSL->Set($H, $S, $L, $A);
+		$Out->RGB->A(0xFF);
 
 		$Out->UpdateFromHSL();
 
@@ -546,7 +544,7 @@ class Colour {
 	UpdateFromRGBA():
 	static {
 
-		$this->HSL->ImportRGBA($this->RGBA);
+		$this->HSL->ImportRGBA($this->RGB);
 
 		return $this;
 	}
@@ -555,7 +553,7 @@ class Colour {
 	UpdateFromHSL():
 	static {
 
-		$this->RGBA->ImportHSL($this->HSL);
+		$this->RGB->ImportHSL($this->HSL);
 
 		return $this;
 	}
@@ -566,18 +564,6 @@ class Colour {
 	static public function
 	From(string $Input):
 	static {
-
-		$Output = new static;
-		$Output->Import($Input);
-
-		return $Output;
-	}
-
-	static public function
-	FromString(string $Input):
-	static {
-
-		// delete this one
 
 		$Output = new static;
 		$Output->Import($Input);

@@ -8,7 +8,7 @@ use Nether\Dye;
 ################################################################################
 ################################################################################
 
-class HSL {
+class HSLA {
 
 	public int
 	$H;
@@ -78,16 +78,32 @@ class HSL {
 		return $Output;
 	}
 
+	public function
+	ToStyleHSLA():
+	string {
+
+		$Output = sprintf(
+			'hsla(%d, %.2f, %.2f, %.2f)',
+			$this->H,
+			$this->S,
+			$this->L,
+			$this->A
+		);
+
+		return $Output;
+	}
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
 	public function
-	Set(int $H, float $S, float $L):
+	Set(int $H, float $S, float $L, float $A):
 	static {
 
 		$this->H = Dye\Util::WrapDegrees($H);
 		$this->S = Dye\Util::ClampNormal($S);
 		$this->L = Dye\Util::ClampNormal($L);
+		$this->A = Dye\Util::ClampNormal($A);
 
 		return $this;
 	}
@@ -95,7 +111,7 @@ class HSL {
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
-	protected function
+	private function
 	CalcHueFromRGBNormal(RGBANormal $RGBAn):
 	int {
 
@@ -125,7 +141,7 @@ class HSL {
 		return Dye\Util::WrapDegrees($Hue);
 	}
 
-	protected function
+	private function
 	CalcSatFromRGBNormal(RGBANormal $RGBAn):
 	float {
 
@@ -150,7 +166,7 @@ class HSL {
 		return $Sat;
 	}
 
-	protected function
+	private function
 	CalcLumFromRGBNormal(RGBANormal $RGBAn):
 	float {
 

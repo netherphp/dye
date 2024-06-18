@@ -167,10 +167,10 @@ extends PHPUnit\Framework\TestCase {
 
 		try {
 			$Format->ImportArrayRGBA([1, 2, 3]);
-			$this->AssertEquals(1, $Format->R);
-			$this->AssertEquals(2, $Format->G);
-			$this->AssertEquals(3, $Format->B);
-			$this->AssertEquals(255, $Format->A);
+			$this->AssertEquals(1, $Format->R());
+			$this->AssertEquals(2, $Format->G());
+			$this->AssertEquals(3, $Format->B());
+			$this->AssertEquals(255, $Format->A());
 		}
 
 		catch(Throwable $Err) { $Exp = TRUE; }
@@ -192,10 +192,10 @@ extends PHPUnit\Framework\TestCase {
 
 		try {
 			$Format->ImportArrayRGBA([1, 2]);
-			$this->AssertEquals(1, $Format->R);
-			$this->AssertEquals(2, $Format->G);
-			$this->AssertEquals(3, $Format->B);
-			$this->AssertEquals(255, $Format->A);
+			$this->AssertEquals(1, $Format->R());
+			$this->AssertEquals(2, $Format->G());
+			$this->AssertEquals(3, $Format->B());
+			$this->AssertEquals(255, $Format->A());
 		}
 
 		catch(Throwable $Err) { $Exp = TRUE; }
@@ -217,10 +217,10 @@ extends PHPUnit\Framework\TestCase {
 
 		try {
 			$Format->ImportArrayRGBA([1, 2, 3, 4, 5]);
-			$this->AssertEquals(1, $Format->R);
-			$this->AssertEquals(2, $Format->G);
-			$this->AssertEquals(3, $Format->B);
-			$this->AssertEquals(255, $Format->A);
+			$this->AssertEquals(1, $Format->R());
+			$this->AssertEquals(2, $Format->G());
+			$this->AssertEquals(3, $Format->B());
+			$this->AssertEquals(255, $Format->A());
 		}
 
 		catch(Throwable $Err) { $Exp = TRUE; }

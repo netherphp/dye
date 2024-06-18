@@ -30,10 +30,10 @@ class RGBANormal {
 	static {
 
 		$this->Set(
-			$RGBA->R / Dye\Util::ByteMax,
-			$RGBA->G / Dye\Util::ByteMax,
-			$RGBA->B / Dye\Util::ByteMax,
-			$RGBA->A / Dye\Util::ByteMax
+			$RGBA->R() / Dye\Util::ByteMax,
+			$RGBA->G() / Dye\Util::ByteMax,
+			$RGBA->B() / Dye\Util::ByteMax,
+			$RGBA->A() / Dye\Util::ByteMax
 		);
 
 		return $this;
