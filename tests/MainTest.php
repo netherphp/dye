@@ -151,6 +151,7 @@ extends PHPUnit\Framework\TestCase {
 		$RGB = NULL;
 		$T = NULL;
 		$C = NULL;
+		$Err = NULL;
 
 		////////
 
@@ -162,6 +163,16 @@ extends PHPUnit\Framework\TestCase {
 			$this->AssertEquals($T->ToHexRGBA(), $C->ToHexRGBA());
 		}
 
+		////////
+
+		try { Dye\Colour::FromStyleRGB('jljjaf'); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class,
+			$Err
+		);
+
 		return;
 	}
 
@@ -171,6 +182,7 @@ extends PHPUnit\Framework\TestCase {
 	void {
 
 		$RGB = NULL;
+		$Err = NULL;
 		$T = NULL;
 		$C = NULL;
 
@@ -184,6 +196,16 @@ extends PHPUnit\Framework\TestCase {
 			$this->AssertEquals($T->ToHexRGBA(), $C->ToHexRGBA());
 		}
 
+		////////
+
+		try { Dye\Colour::FromStyleRGBA('jljjaf'); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class,
+			$Err
+		);
+
 		return;
 	}
 
@@ -194,6 +216,7 @@ extends PHPUnit\Framework\TestCase {
 
 		$Fuzz = 2.0;
 		$RGB = NULL;
+		$Err = NULL;
 		$T = NULL;
 		$C = NULL;
 
@@ -208,6 +231,16 @@ extends PHPUnit\Framework\TestCase {
 			$this->AssertEqualsWithDelta($T->B(), $C->B(), $Fuzz);
 			$this->AssertEqualsWithDelta($T->A(), $C->A(), $Fuzz);
 		}
+
+		////////
+
+		try { Dye\Colour::FromStyleHSL('jljjaf'); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class,
+			$Err
+		);
 
 		return;
 	}
