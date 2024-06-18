@@ -97,10 +97,15 @@ class Util {
 		$Str = strtolower(trim($Input));
 		$Output = NULL;
 
+		$RegEx = '/\(([\d\.]+), *?([\d\.]+), *?([\d\.]+)\)$/';
+
 		////////
 
-		if(preg_match('/\(([\d\.]+), *?([\d\.]+), *?([\d\.]+)\)$/', $Str, $Found))
+		if(preg_match($RegEx, $Str, $Found))
 		$Output = array_slice($Found, 1, 3);
+
+		if($Output === NULL)
+		throw new Error\StyleRegexFail($Str);
 
 		return $Output;
 	}
@@ -117,6 +122,9 @@ class Util {
 
 		if(preg_match('/\(([\d\.]+), *?([\d\.]+), *?([\d\.]+), *?([\d\.]+)\)$/', $Str, $Found))
 		$Output = array_slice($Found, 1, 4);
+
+		if($Output === NULL)
+		throw new Error\StyleRegexFail($Str);
 
 		return $Output;
 	}

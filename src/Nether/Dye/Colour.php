@@ -153,7 +153,7 @@ class Colour {
 	}
 
 	public function
-	Saturate(float $Per=0.0):
+	Saturate(float $Str=0.0):
 	static {
 
 		$Out = $this->GetReturnTarget();
@@ -161,7 +161,7 @@ class Colour {
 		////////
 
 		$Out->HSL->S = Util::ClampNormal(
-			$Out->HSL->S + ($Out->HSL->S * $Per)
+			$Out->HSL->S + ($Out->HSL->S * $Str)
 		);
 
 		$Out->UpdateFromHSL();
@@ -170,7 +170,7 @@ class Colour {
 	}
 
 	public function
-	Desaturate(float $Per=0.0):
+	Desaturate(float $Str=0.0):
 	static {
 
 		$Out = $this->GetReturnTarget();
@@ -178,7 +178,7 @@ class Colour {
 		////////
 
 		$Out->HSL->S = Util::ClampNormal(
-			$Out->HSL->S - ($Out->HSL->S * $Per)
+			$Out->HSL->S - ($Out->HSL->S * $Str)
 		);
 
 		$Out->UpdateFromHSL();
@@ -204,7 +204,7 @@ class Colour {
 	}
 
 	public function
-	Lighten(float $Per=0.0):
+	Lighten(float $Str=0.0):
 	static {
 
 		$Out = $this->GetReturnTarget();
@@ -212,7 +212,7 @@ class Colour {
 		////////
 
 		$Out->HSL->L = Util::ClampNormal(
-			$Out->HSL->L + ($Out->HSL->L * $Per)
+			$Out->HSL->L + ($Out->HSL->L * $Str)
 		);
 
 		$Out->UpdateFromHSL();
@@ -221,7 +221,7 @@ class Colour {
 	}
 
 	public function
-	Darken(float $Per=0.0):
+	Darken(float $Str=0.0):
 	static {
 
 		$Out = $this->GetReturnTarget();
@@ -229,7 +229,7 @@ class Colour {
 		////////
 
 		$Out->HSL->L = Util::ClampNormal(
-			$Out->HSL->L - ($Out->HSL->L * $Per)
+			$Out->HSL->L - ($Out->HSL->L * $Str)
 		);
 
 		$Out->UpdateFromHSL();
@@ -264,7 +264,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	DigestString(string $Input):
 	static {
 
@@ -277,13 +277,13 @@ class Colour {
 			=> $this->ImportHexString($In),
 
 			(str_starts_with($In, 'rgb('))
-			=> $this->ImportRGBA(...Util::FetchStyleBits3($In)),
+			=> $this->ImportRGBA(...(Util::FetchStyleBits3($In) ?? [ 0, 0, 0 ])),
 
 			(str_starts_with($In, 'rgba('))
-			=> $this->ImportRGBA(...Util::FetchStyleBits4($In)),
+			=> $this->ImportRGBA(...(Util::FetchStyleBits4($In) ?? [ 0, 0, 0, 1.0 ])),
 
 			(str_starts_with($In, 'hsl('))
-			=> $this->ImportHSL(...Util::FetchStyleBits3($In)),
+			=> $this->ImportHSL(...(Util::FetchStyleBits3($In) ?? [ 0, 0, 0 ])),
 
 			default
 			=> throw new Error\InvalidColourFormat($Input, 'DigestString')
@@ -294,7 +294,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	DigestArray(array $Input, string $Type):
 	static {
 
@@ -319,7 +319,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	DigestInteger(int $Input, string $Type):
 	static {
 
@@ -338,7 +338,7 @@ class Colour {
 	////////////////////////////////
 	////////////////////////////////
 
-	public function
+	protected function
 	ImportHexString(string $Hex):
 	static {
 
@@ -365,7 +365,7 @@ class Colour {
 		return $this;
 	}
 
-	public function
+	protected function
 	ImportIntRGB(int $Int):
 	static {
 
@@ -375,7 +375,7 @@ class Colour {
 		return $this;
 	}
 
-	public function
+	protected function
 	ImportIntRGBA(int $Int):
 	static {
 
@@ -385,12 +385,9 @@ class Colour {
 		return $this;
 	}
 
-	public function
+	protected function
 	ImportRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
-
-		if(is_float($A))
-		$A = Util::ClampByte($A * Util::ByteMax);
 
 		$this->RGBA->Set($R, $G, $B, $A);
 		$this->UpdateFromRGBA();
@@ -398,7 +395,7 @@ class Colour {
 		return $this;
 	}
 
-	public function
+	protected function
 	ImportHSL(int $H, float $S, float $L):
 	static {
 

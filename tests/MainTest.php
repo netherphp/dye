@@ -486,6 +486,16 @@ extends PHPUnit\Framework\TestCase {
 			Dye\Error\InvalidColourFormat::class, $Err
 		);
 
+		////////
+
+		$Err = NULL;
+
+		try { $C->Import('rgb(chicken, nuggets)'); }
+		catch(Dye\Error\StyleRegexFail $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\StyleRegexFail::class, $Err
+		);
 
 		return;
 	}
