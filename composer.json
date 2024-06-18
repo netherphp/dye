@@ -1,6 +1,6 @@
 {
 	"name": "netherphp/dye",
-	"description": "Actual simple colour manipulation.",
+	"description": "Simple colour formatting and manipulation.",
 	"keywords": [ "php", "colour" ],
 	"license": "BSD-2-Clause",
 	"authors":[
