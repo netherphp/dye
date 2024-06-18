@@ -3,6 +3,9 @@
 
 namespace Nether\Dye;
 
+use Nether\Dye\Format\RGBA;
+use Nether\Dye\Format\HSL;
+
 ################################################################################
 ################################################################################
 
@@ -23,10 +26,17 @@ class Colour {
 	////////////////////////////////////////////////////////////////
 
 	public function
-	__Construct() {
+	__Construct(string|int|array|RGBA|HSL|NULL $Input=NULL) {
 
-		$this->RGBA = new Format\RGBA;
-		$this->HSL = new Format\HSL;
+		$this->RGBA = new RGBA;
+		$this->HSL = new HSL;
+
+		////////
+
+		if($Input !== NULL)
+		$this->Import($Input);
+
+		////////
 
 		return;
 	}
