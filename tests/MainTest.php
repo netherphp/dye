@@ -459,6 +459,38 @@ extends PHPUnit\Framework\TestCase {
 		return;
 	}
 
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestDesatSat():
+	void {
+
+		$C = Dye\Colour::FromHexString('#FF0000');
+
+		$C->Desaturate(0.5);
+		$this->AssertEquals('#BF4040', $C->ToHexRGB());
+
+		$C->Saturate(1.0);
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestSatDesat():
+	void {
+
+		$C = Dye\Colour::FromHexString('#BF4040');
+
+		$C->Saturate(1.0);
+		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		$C->Desaturate(0.5);
+		$this->AssertEquals('#BF4040', $C->ToHexRGB());
+
+		return;
+	}
+
 	////////////////////////////////////////////////////////////////
 	// TO STRING API ///////////////////////////////////////////////
 
