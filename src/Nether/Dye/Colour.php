@@ -15,10 +15,10 @@ class Colour {
 	TypeRGBA = 'rgba',
 	TypeHSL  = 'hsl';
 
-	public Format\RGBA
+	protected Format\RGBA
 	$RGBA;
 
-	public Format\HSL
+	protected Format\HSL
 	$HSL;
 
 	////////////////////////////////////////////////////////////////
