@@ -710,6 +710,12 @@ extends PHPUnit\Framework\TestCase {
 		$C->SetRGBA(A: 0xD1);
 		$this->AssertEquals('#A1B1C1D1', $C->ToHexRGBA());
 
+		// and i mean some crazy shit that you could be dumping into here
+		// hapzichordicandantly.
+
+		$C->SetRGBA(...[ 'R'=> 0xBA, 'G'=> 0xBB ]);
+		$this->AssertEquals('#BABBC1D1', $C->ToHexRGBA());
+
 		return;
 	}
 
