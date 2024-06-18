@@ -420,17 +420,12 @@ class Colour {
 		// this method differs from the import variant in that it allows
 		// for the fukken wild wild west over here.
 
-		if($R !== NULL)
-		$this->RGBA->R = $R;
-
-		if($G !== NULL)
-		$this->RGBA->G = $G;
-
-		if($B !== NULL)
-		$this->RGBA->B = $B;
-
-		if($A !== NULL)
-		$this->RGBA->A = $A;
+		$this->RGBA->Set(
+			$R ?? $this->RGBA->R,
+			$G ?? $this->RGBA->G,
+			$B ?? $this->RGBA->B,
+			$A ?? $this->RGBA->A
+		);
 
 		$this->UpdateFromRGBA();
 

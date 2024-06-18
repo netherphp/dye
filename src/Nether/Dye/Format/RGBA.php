@@ -124,8 +124,13 @@ class RGBA {
 	////////////////////////////////////////////////////////////////
 
 	public function
-	Set(int $R, int $G, int $B, int $A):
+	Set(int $R, int $G, int $B, int|float $A):
 	static {
+
+		if(is_float($A))
+		$A = Dye\Util::ClampByte($A * Dye\Util::ByteMax);
+
+		////////
 
 		$this->R = Dye\Util::ClampByte($R);
 		$this->G = Dye\Util::ClampByte($G);
@@ -134,6 +139,8 @@ class RGBA {
 
 		return $this;
 	}
+
+
 
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
