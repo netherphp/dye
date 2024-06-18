@@ -365,7 +365,7 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
-	TestFromYolo():
+	TestFromYoloImport():
 	void {
 
 		$C = new Dye\Colour;
@@ -384,6 +384,21 @@ extends PHPUnit\Framework\TestCase {
 
 		$C->Import('hsl(0, 1.0, 0.5)');
 		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		$C->Import([ 255, 255, 0 ], $C::TypeRGB);
+		$this->AssertEquals('#FFFF00', $C->ToHexRGB());
+
+		$C->Import([ 255, 255, 0, 127 ], $C::TypeRGBA);
+		$this->AssertEquals('#FFFF007F', $C->ToHexRGBA());
+
+		$C->Import([ 120, 1.0, 0.5 ], $C::TypeHSL);
+		$this->AssertEquals('#00FF00', $C->ToHexRGB());
+
+		$C->Import(0x00FFFF, $C::TypeRGB);
+		$this->AssertEquals('#00FFFF', $C->ToHexRGB());
+
+		$C->Import(0x00FFFF7F, $C::TypeRGBA);
+		$this->AssertEquals('#00FFFF7F', $C->ToHexRGBA());
 
 		return;
 	}

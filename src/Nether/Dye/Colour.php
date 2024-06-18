@@ -256,10 +256,7 @@ class Colour {
 
 		////////
 
-		throw new Error\InvalidColourFormat(
-			"{$Input} (try specific Import* method)"
-		);
-
+		throw new Error\InvalidColourFormat("{$Input} (try specific Import");
 		return $this;
 	}
 
@@ -301,8 +298,10 @@ class Colour {
 			if($Type === static::TypeRGB)
 			return $this->ImportRGBA(...$Input);
 
+
 			if($Type === static::TypeHSL)
 			return $this->ImportHSL(...$Input);
+
 		}
 
 		if(count($Input) === 4) {
@@ -310,6 +309,9 @@ class Colour {
 			return $this->ImportRGBA(...$Input);
 		}
 
+		////////
+
+		throw new Error\InvalidColourFormat("{$Input}, {$Type}");
 		return $this;
 	}
 
@@ -323,6 +325,9 @@ class Colour {
 		if($Type === static::TypeRGBA)
 		return $this->ImportIntRGBA($Input);
 
+		////////
+
+		throw new Error\InvalidColourFormat("{$Input}, {$Type}");
 		return $this;
 	}
 
