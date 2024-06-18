@@ -77,10 +77,10 @@ This version will return a fresh immutable colour when mixing in modifications l
 # Query API
 
 **`$Colour->IsBright(): bool`**
-* returns true if the colour would be perceived as bright.
+* Returns TRUE if the colour would be perceived as bright.
 
 **`$Colour->IsDark(): bool`**
-* Returns true if the colour would be perceived as dark.
+* Returns TRUE if the colour would be perceived as dark.
 
 # Printing API
 
