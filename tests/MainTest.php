@@ -406,7 +406,7 @@ extends PHPUnit\Framework\TestCase {
 
 		////////
 
-		try { $C->Import([ 1, 2 ]); }
+		try { $C->Import([ 1, 2 ], $C::TypeRGB); }
 		catch(Dye\Error\InvalidColourFormat $Err) { }
 
 		$this->AssertInstanceOf(
