@@ -241,11 +241,14 @@ class Colour {
 	// COLOUR READING //////////////////////////////////////////////
 
 	public function
-	Import(string|int|array $Input, ?string $Type=NULL):
+	Import(string|int|array|Format\RGBA|Format\HSL $Input, ?string $Type=NULL):
 	static {
 
 		if(is_string($Input))
 		return $this->DigestString($Input);
+
+		if(is_object($Input))
+		return $this->DigestObject($Input);
 
 		////////
 
@@ -260,6 +263,24 @@ class Colour {
 		////////
 
 		throw new Error\InvalidColourFormat($Input, 'try specific Import* method');
+
+		return $this;
+	}
+
+	private function
+	DigestObject(Format\RGBA|Format\HSL $Input):
+	static {
+
+		match(TRUE) {
+			($Input instanceof Format\RGBA)
+			=> $this->ImportRGBA($Input->R, $Input->G, $Input->B, $Input->A),
+
+			($Input instanceof Format\HSL)
+			=> $this->ImportHSL($Input->H, $Input->S, $Input->L),
+
+			default
+			=> new Error\InvalidColourFormat($Input, 'DigestObject')
+		};
 
 		return $this;
 	}
@@ -338,7 +359,7 @@ class Colour {
 	////////////////////////////////
 	////////////////////////////////
 
-	protected function
+	private function
 	ImportHexString(string $Hex):
 	static {
 
@@ -365,7 +386,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	ImportIntRGB(int $Int):
 	static {
 
@@ -375,7 +396,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	ImportIntRGBA(int $Int):
 	static {
 
@@ -385,7 +406,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	ImportRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
 
@@ -395,7 +416,7 @@ class Colour {
 		return $this;
 	}
 
-	protected function
+	private function
 	ImportHSL(int $H, float $S, float $L):
 	static {
 

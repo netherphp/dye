@@ -10,13 +10,7 @@ extends Colour {
 	static {
 
 		$Output = new static;
-
-		$Output->ImportRGBA(
-			$this->RGBA->R,
-			$this->RGBA->G,
-			$this->RGBA->B,
-			$this->RGBA->A
-		);
+		$Output->Import($this->RGBA);
 
 		return $Output;
 	}
