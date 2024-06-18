@@ -138,6 +138,88 @@ class RGBA {
 	////////////////////////////////////////////////////////////////
 
 	public function
+	ToHexRGB():
+	string {
+
+		$Output = strtoupper(sprintf(
+			'#%02x%02x%02x',
+			$this->R,
+			$this->G,
+			$this->B
+		));
+
+		return $Output;
+	}
+
+	public function
+	ToHexRGBA():
+	string {
+
+		$Output = strtoupper(sprintf(
+			'#%02x%02x%02x%02x',
+			$this->R,
+			$this->G,
+			$this->B,
+			$this->A
+		));
+
+		return $Output;
+	}
+
+	public function
+	ToIntRGB():
+	int {
+
+		return (0
+			| ($this->R << 16)
+			| ($this->G << 8)
+			| ($this->B)
+		);
+	}
+
+	public function
+	ToIntRGBA():
+	int {
+
+		return (0
+			| ($this->R << 24)
+			| ($this->G << 16)
+			| ($this->B << 8)
+			| ($this->A)
+		);
+	}
+
+	public function
+	ToStyleRGB():
+	string {
+
+		$Output = sprintf(
+			'rgb(%d, %d, %d)',
+			$this->R,
+			$this->G,
+			$this->B
+		);
+
+		return $Output;
+	}
+
+	public function
+	ToStyleRGBA():
+	string {
+
+		$Output = sprintf(
+			'rgba(%d, %d, %d, %.2f)',
+			$this->R, $this->G, $this->B,
+			Dye\Util::ClampNormal($this->A / Dye\Util::ByteMax)
+		);
+
+		return $Output;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
 	Set(int $R, int $G, int $B, int|float $A):
 	static {
 
@@ -158,6 +240,23 @@ class RGBA {
 	////////////////////////////////////////////////////////////////
 
 	public function
+	IsBright():
+	bool {
+
+		return $this->CalcPercIsBright();
+	}
+
+	public function
+	IsDark():
+	bool {
+
+		return $this->CalcPercIsDark();
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	protected function
 	CalcPercBrightness():
 	float {
 
@@ -170,7 +269,7 @@ class RGBA {
 		);
 	}
 
-	public function
+	protected function
 	CalcPercIsBright():
 	bool {
 
@@ -181,7 +280,7 @@ class RGBA {
 		return $PB > 127.5;
 	}
 
-	public function
+	protected function
 	CalcPercIsDark():
 	bool {
 

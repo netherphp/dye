@@ -59,6 +59,23 @@ class HSL {
 	}
 
 	public function
+	ToStyleHSL():
+	string {
+
+		$Output = sprintf(
+			'hsl(%d, %.2f, %.2f)',
+			$this->H,
+			$this->S,
+			$this->L
+		);
+
+		return $Output;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
 	Set(int $H, float $S, float $L):
 	static {
 

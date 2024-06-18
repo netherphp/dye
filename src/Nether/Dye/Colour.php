@@ -96,14 +96,14 @@ class Colour {
 	IsBright():
 	bool {
 
-		return $this->RGBA->CalcPercIsBright();
+		return $this->RGBA->IsBright();
 	}
 
 	public function
 	IsDark():
 	bool {
 
-		return $this->RGBA->CalcPercIsDark();
+		return $this->RGBA->IsDark();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -269,6 +269,64 @@ class Colour {
 		$this->UpdateFromHSL();
 
 		return $this;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// FORMAT PRINTING API /////////////////////////////////////////
+
+	public function
+	ToHexRGB():
+	string {
+
+		return $this->RGBA->ToHexRGB();
+	}
+
+	public function
+	ToHexRGBA():
+	string {
+
+		return $this->RGBA->ToHexRGBA();
+	}
+
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
+	ToIntRGB():
+	int {
+
+		return $this->RGBA->ToIntRGB();
+	}
+
+	public function
+	ToIntRGBA():
+	int {
+
+		return $this->RGBA->ToIntRGBA();
+	}
+
+	////////////////////////////////
+	////////////////////////////////
+
+	public function
+	ToStyleHSL():
+	string {
+
+		return $this->HSL->ToStyleHSL();
+	}
+
+	public function
+	ToStyleRGB():
+	string {
+
+		return $this->RGBA->ToStyleRGB();
+	}
+
+	public function
+	ToStyleRGBA():
+	string {
+
+		return $this->RGBA->ToStyleRGBA();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -481,104 +539,6 @@ class Colour {
 		$this->RGBA->ImportHSL($this->HSL);
 
 		return $this;
-	}
-
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-
-	public function
-	ToHexRGB():
-	string {
-
-		$Output = strtoupper(sprintf(
-			'#%02x%02x%02x',
-			$this->RGBA->R,
-			$this->RGBA->G,
-			$this->RGBA->B
-		));
-
-		return $Output;
-	}
-
-	public function
-	ToHexRGBA():
-	string {
-
-		$Output = strtoupper(sprintf(
-			'#%02x%02x%02x%02x',
-			$this->RGBA->R,
-			$this->RGBA->G,
-			$this->RGBA->B,
-			$this->RGBA->A
-		));
-
-		return $Output;
-	}
-
-	public function
-	ToIntRGB():
-	int {
-
-		return (0
-			| ($this->RGBA->R << 16)
-			| ($this->RGBA->G << 8)
-			| ($this->RGBA->B)
-		);
-	}
-
-	public function
-	ToIntRGBA():
-	int {
-
-		return (0
-			| ($this->RGBA->R << 24)
-			| ($this->RGBA->G << 16)
-			| ($this->RGBA->B << 8)
-			| ($this->RGBA->A)
-		);
-	}
-
-	public function
-	ToStyleHSL():
-	string {
-
-		$Output = sprintf(
-			'hsl(%d, %.2f, %.2f)',
-			$this->HSL->H,
-			$this->HSL->S,
-			$this->HSL->L
-		);
-
-		return $Output;
-	}
-
-	public function
-	ToStyleRGB():
-	string {
-
-		$Output = sprintf(
-			'rgb(%d, %d, %d)',
-			$this->RGBA->R,
-			$this->RGBA->G,
-			$this->RGBA->B
-		);
-
-		return $Output;
-	}
-
-	public function
-	ToStyleRGBA():
-	string {
-
-		$Output = sprintf(
-			'rgba(%d, %d, %d, %.2f)',
-			$this->RGBA->R,
-			$this->RGBA->G,
-			$this->RGBA->B,
-			Util::ClampNormal($this->RGBA->A / Util::ByteMax)
-		);
-
-		return $Output;
 	}
 
 	////////////////////////////////////////////////////////////////
