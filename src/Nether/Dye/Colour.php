@@ -250,7 +250,7 @@ class Colour {
 			$A ?? $Out->RGB->A()
 		);
 
-		$Out->UpdateFromRGBA();
+		$Out->UpdateFromRGB();
 
 		return $Out;
 	}
@@ -373,7 +373,7 @@ class Colour {
 
 		$Out = match(TRUE) {
 			($Input instanceof RGBA)
-			=> $this->ImportRGBA($Input->R(), $Input->G(), $Input->B(), $Input->A()),
+			=> $this->ImportRGB($Input->R(), $Input->G(), $Input->B(), $Input->A()),
 
 			($Input instanceof HSLA)
 			=> $this->ImportHSL($Input->H, $Input->S, $Input->L),
@@ -398,13 +398,16 @@ class Colour {
 			=> $this->ImportHexString($In),
 
 			(str_starts_with($In, 'rgb('))
-			=> $this->ImportRGBA(...Util::FetchStyleBits3($In)),
+			=> $this->ImportRGB(...Util::FetchStyleBits3($In)),
 
 			(str_starts_with($In, 'rgba('))
-			=> $this->ImportRGBA(...Util::FetchStyleBits4($In)),
+			=> $this->ImportRGB(...Util::FetchStyleBits4($In)),
 
 			(str_starts_with($In, 'hsl('))
 			=> $this->ImportHSL(...Util::FetchStyleBits3($In)),
+
+			(str_starts_with($In, 'hsla('))
+			=> $this->ImportHSL(...Util::FetchStyleBits4($In)),
 
 			default
 			=> throw new Error\InvalidColourFormat($Input, 'DigestString')
@@ -421,7 +424,7 @@ class Colour {
 
 		if(count($Input) === 3) {
 			if($Type === static::TypeRGB)
-			return $this->ImportRGBA(...$Input);
+			return $this->ImportRGB(...$Input);
 
 
 			if($Type === static::TypeHSL)
@@ -431,7 +434,7 @@ class Colour {
 
 		if(count($Input) === 4) {
 			if($Type === static::TypeRGBA)
-			return $this->ImportRGBA(...$Input);
+			return $this->ImportRGB(...$Input);
 		}
 
 		////////
@@ -482,7 +485,7 @@ class Colour {
 
 		////////
 
-		$Out->UpdateFromRGBA();
+		$Out->UpdateFromRGB();
 
 		return $Out;
 	}
@@ -494,7 +497,7 @@ class Colour {
 		$Out = $this->GetReturnTarget();
 
 		$Out->RGB->ImportArrayRGBA(Util::DecToBitsRGB($Int));
-		$Out->UpdateFromRGBA();
+		$Out->UpdateFromRGB();
 
 		return $Out;
 	}
@@ -506,19 +509,19 @@ class Colour {
 		$Out = $this->GetReturnTarget();
 
 		$Out->RGB->ImportArrayRGBA(Util::DecToBitsRGBA($Int));
-		$Out->UpdateFromRGBA();
+		$Out->UpdateFromRGB();
 
 		return $Out;
 	}
 
 	private function
-	ImportRGBA(int $R, int $G, int $B, int|float $A=Util::ByteMax):
+	ImportRGB(int $R, int $G, int $B, int|float $A=Util::ByteMax):
 	static {
 
 		$Out = $this->GetReturnTarget();
 
 		$Out->RGB->Set($R, $G, $B, $A);
-		$Out->UpdateFromRGBA();
+		$Out->UpdateFromRGB();
 
 		return $Out;
 	}
@@ -541,7 +544,7 @@ class Colour {
 	////////////////////////////////////////////////////////////////
 
 	protected function
-	UpdateFromRGBA():
+	UpdateFromRGB():
 	static {
 
 		$this->HSL->ImportRGBA($this->RGB);
@@ -606,7 +609,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output = $Output->ImportRGBA($R, $G, $B, $A);
+		$Output = $Output->ImportRGB($R, $G, $B, $A);
 
 		return $Output;
 	}

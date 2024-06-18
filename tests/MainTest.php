@@ -247,6 +247,42 @@ extends PHPUnit\Framework\TestCase {
 
 	#[PHPUnit\Framework\Attributes\Test]
 	public function
+	FromStyleHSLA():
+	void {
+
+		$Fuzz = 2.0;
+		$RGB = NULL;
+		$Err = NULL;
+		$T = NULL;
+		$C = NULL;
+
+		////////
+
+		foreach(static::SweepRGB1 as $RGB) {
+			$T = Dye\Colour::From($RGB);
+			$C = Dye\Colour::From($T->ToStyleHSLA());
+
+			$this->AssertEqualsWithDelta($T->RGB->R(), $C->RGB->R(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->G(), $C->RGB->G(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->B(), $C->RGB->B(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->A(), $C->RGB->A(), $Fuzz);
+		}
+
+		////////
+
+		try { Dye\Colour::From('jljjaf'); }
+		catch(Dye\Error\InvalidColourFormat $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\InvalidColourFormat::class,
+			$Err
+		);
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
 	TestFromHexShort():
 	void {
 
@@ -888,11 +924,11 @@ extends PHPUnit\Framework\TestCase {
 		foreach($Methods as $Method => $Args) {
 			$Method = rtrim($Method, '_0123456789');
 
-			$C1 = Dye\Colour::From($BaseColour);
+			$C1 = new Dye\Colour($BaseColour);
 			$C2 = $C1->{$Method}(...$Args);
 			$this->AssertEquals(spl_object_id($C1), spl_object_id($C2));
 
-			$C1 = Dye\ColourImmutable::From($BaseColour);
+			$C1 = new Dye\ColourImmutable($BaseColour);
 			$C2 = $C1->{$Method}(...$Args);
 			$this->AssertNotEquals(spl_object_id($C1), spl_object_id($C2));
 		}

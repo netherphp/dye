@@ -4,7 +4,23 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/netherphp/dye/phpunit.yml?style=for-the-badge)](https://github.com/netherphp/dye/actions)
 [![codecov](https://img.shields.io/codecov/c/gh/netherphp/dye?style=for-the-badge&token=VQC48XNBS2)](https://codecov.io/gh/netherphp/dye)
 
-Simple colour parsing and manipulation library. Lightweight, dependency free.
+Simple colour parsing and manipulation library. Lightweight, dependency free. Able to automatically parse common colour strings. No messing around with different classes for the various supported formats.
+
+#### Supported String Formats
+
+* RGB Hex String `#FF0000`
+* RGBA Hex String `#FF0000FF`
+* RGB CSS String `rgb(255, 0, 0)`
+* RGBA CSS String `rgba(255, 0, 0, 1.0)`
+* HSL CSS String `hsl(255, 0, 0)`
+* HSLA CSS String `hsla(255, 0, 0, 1.0)`
+
+```php
+use Nether\Dye\Colour;
+
+$Red = new Colour('#FF0000');
+// ...
+```
 
 # Requirements
 
