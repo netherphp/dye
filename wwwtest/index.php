@@ -18,7 +18,7 @@ class BurnRow {
 
 	public function
 	__Construct(string $Hex) {
-		$this->C = Nether\Dye\Colour::FromHexString($Hex);
+		$this->C = Nether\Dye\Colour::From($Hex);
 		return;
 	}
 
@@ -116,7 +116,11 @@ class BurnRow {
 	<title>Colour Test</title>
 
 	<style type="text/css">
-	body { font-family: 'Consolas', monospace; }
+	body { font-family: 'Consolas', monospace; margin: 0px; padding: 1.5rem; }
+	h1, h2, h3, h4 { line-height: 1.0rem; margin: 0px 0px 1.5rem 0px; padding: 0px; }
+	h1 { font-size: 4rem; }
+	h2 { font-size: 2.5rem; }
+	hr { margin-top: 1.5rem; margin-bottom: 1.5rem; }
 
 	.burnrow { display: flex; width: 100%; }
 	.burnrow > div { padding: 0.25rem; flex-grow: 1; text-align: center; }
@@ -126,8 +130,10 @@ class BurnRow {
 <body>
 
 <div class="mb-4">
+	<h2>About Red</h2>
+	<hr />
 	<?php
-	$Red = Nether\Dye\Colour::FromHexString('#FF0000');
+	$Red = Nether\Dye\Colour::From('#FF0000');
 	printf('<div><b>RGB Hex:</b> %s</div>', $Red->ToHexRGB());
 	printf('<div><b>RGBA Hex:</b> %s</div>', $Red->ToHexRGBA());
 	printf('<div><b>Style RGB:</b> %s</div>', $Red->ToStyleRGB());
@@ -136,16 +142,21 @@ class BurnRow {
 	?>
 </div>
 
-<?php
-foreach($ColourSet as $ColourHex) {
-	$Row = new BurnRow($ColourHex);
-	echo $Row->Render($Row->GenRotateData());
-	echo $Row->Render($Row->GenDesatData());
-	echo $Row->Render($Row->GenDarkenData());
-	echo $Row->Render($Row->GenLightenData());
-	echo '<br />';
-}
-?>
+<div class="mb-4">
+	<h2>Manipulation Outputs</h2>
+	<hr />
+
+	<?php
+	foreach($ColourSet as $ColourHex) {
+		$Row = new BurnRow($ColourHex);
+		echo $Row->Render($Row->GenRotateData());
+		echo $Row->Render($Row->GenDesatData());
+		echo $Row->Render($Row->GenDarkenData());
+		echo $Row->Render($Row->GenLightenData());
+		echo '<br />';
+	}
+	?>
+</div>
 
 </body>
 </html>

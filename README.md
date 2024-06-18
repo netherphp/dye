@@ -164,3 +164,11 @@ printf(
 
 // R: #FF0000, G: #00FF00, B: #0000FF
 ```
+
+# Testing
+
+**`$ phpunit`**
+* Run the unit test suite.
+
+**`$ php -S localhost:8080 -t wwwtest`**
+* Run a test page to see some things.
