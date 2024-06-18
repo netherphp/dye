@@ -817,6 +817,7 @@ extends PHPUnit\Framework\TestCase {
 			'Import'     => [ '#00FF00' ],
 			'Import_2'   => [ [ 1, 2, 3 ], Dye\Colour::TypeRGB ],
 			'Import_3'   => [ 0x0000FF, Dye\Colour::TypeRGB ],
+			'Import_4'   => [ new Dye\Format\RGBA(4, 5, 6, 7) ],
 			'SetRGB'     => [ 1, 2, 3, 4 ],
 			'SetHSL'     => [ 10, 0.2, 0.3, 0.4 ],
 			'HueRotate'  => [ 120 ],
