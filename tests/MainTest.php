@@ -402,6 +402,7 @@ extends PHPUnit\Framework\TestCase {
 	void {
 
 		$C = new Dye\Colour;
+		$N = NULL;
 		$Err = NULL;
 		$Exp = FALSE;
 
@@ -409,6 +410,11 @@ extends PHPUnit\Framework\TestCase {
 
 		$C->Import('#FF0000');
 		$this->AssertEquals('#FF0000', $C->ToHexRGB());
+
+		$N = Dye\Colour::FromString($C->ToHexRGB());
+		$this->AssertEquals('#FF0000', $N->ToHexRGB());
+
+		// ...
 
 		$C->Import('#FF000088');
 		$this->AssertEquals('#FF000088', $C->ToHexRGBA());
