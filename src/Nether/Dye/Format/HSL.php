@@ -25,13 +25,26 @@ class HSL {
 	////////////////////////////////////////////////////////////////
 
 	public function
+	__Construct(int $H=0, float $S=0.0, float $L=0.0) {
+
+		$this->H = $H;
+		$this->S = $S;
+		$this->L = $L;
+
+		return;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
 	ImportRGBA(RGBA $RGBA):
 	static {
 
 		$RGBAn = new RGBANormal;
 		$RGBAn->ImportRGBA($RGBA);
 
-		return static::ImportRGBANormal($RGBAn);
+		return $this->ImportRGBANormal($RGBAn);
 	}
 
 	public function

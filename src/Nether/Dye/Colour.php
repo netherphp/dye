@@ -245,19 +245,19 @@ class Colour {
 	static {
 
 		if(is_string($Input))
-		return $this->DigestString($Input);
+		return $this->ImportDigestString($Input);
 
 		if(is_object($Input))
-		return $this->DigestObject($Input);
+		return $this->ImportDigestObject($Input);
 
 		////////
 
 		if($Type !== NULL) {
 			if(is_array($Input))
-			return $this->DigestArray($Input, $Type);
+			return $this->ImportDigestArray($Input, $Type);
 
 			if(is_int($Input))
-			return $this->DigestInteger($Input, $Type);
+			return $this->ImportDigestInteger($Input, $Type);
 		}
 
 		////////
@@ -268,7 +268,7 @@ class Colour {
 	}
 
 	private function
-	DigestObject(Format\RGBA|Format\HSL $Input):
+	ImportDigestObject(Format\RGBA|Format\HSL $Input):
 	static {
 
 		match(TRUE) {
@@ -286,7 +286,7 @@ class Colour {
 	}
 
 	private function
-	DigestString(string $Input):
+	ImportDigestString(string $Input):
 	static {
 
 		$In = strtolower(trim($Input));
@@ -298,13 +298,13 @@ class Colour {
 			=> $this->ImportHexString($In),
 
 			(str_starts_with($In, 'rgb('))
-			=> $this->ImportRGBA(...(Util::FetchStyleBits3($In) ?? [ 0, 0, 0 ])),
+			=> $this->ImportRGBA(...Util::FetchStyleBits3($In)),
 
 			(str_starts_with($In, 'rgba('))
-			=> $this->ImportRGBA(...(Util::FetchStyleBits4($In) ?? [ 0, 0, 0, 1.0 ])),
+			=> $this->ImportRGBA(...Util::FetchStyleBits4($In)),
 
 			(str_starts_with($In, 'hsl('))
-			=> $this->ImportHSL(...(Util::FetchStyleBits3($In) ?? [ 0, 0, 0 ])),
+			=> $this->ImportHSL(...Util::FetchStyleBits3($In)),
 
 			default
 			=> throw new Error\InvalidColourFormat($Input, 'DigestString')
@@ -316,7 +316,7 @@ class Colour {
 	}
 
 	private function
-	DigestArray(array $Input, string $Type):
+	ImportDigestArray(array $Input, string $Type):
 	static {
 
 		if(count($Input) === 3) {
@@ -341,7 +341,7 @@ class Colour {
 	}
 
 	private function
-	DigestInteger(int $Input, string $Type):
+	ImportDigestInteger(int $Input, string $Type):
 	static {
 
 		if($Type === static::TypeRGB)
