@@ -8,11 +8,31 @@ Simple colour manipulation.
 
 # Usage
 
+### `Nether\Dye\Colour`
+
+Basic colour object where modifications will be mixed into the current object and all relevant properties recalculated to remain current.
+
+### `Nether\Dye\ColourImmutable`
+
+This version will return a fresh immutable colour when mixing in modifications leaving the original object untouched.
+
 ```php
-$Red = Nether\Dye\Colour::FromHexString('#FF0000');
-printf('<div><b>RGB Hex:</b> %s</div>', $Red->ToHexRGB());
-printf('<div><b>RGBA Hex:</b> %s</div>', $Red->ToHexRGBA());
-printf('<div><b>Style RGB:</b> %s</div>', $Red->ToStyleRGB());
-printf('<div><b>Style HSL:</b> %s</div>', $Red->ToStyleHSL());
-printf('<div><b>Dark/Light:</b> %s</div>', $Red->IsDark() ? 'Dark' : 'Bright');
+$C = Nether\Dye\Colour::FromString('#FF0000');
+
+echo $C->ToHexRGB(), PHP_EOL;
+// #FF0000
+
+echo $C->ToStyleRGB(), PHP_EOL;
+// rgb(255, 0, 0)
+
+echo $C->ToStyleHSL(), PHP_EOL;
+// hsl(255, 0, 0)
+
+echo ($C->IsDark() ? 'Dark' : 'Bright'), PHP_EOL;
+// Bright
+
+$C->HueRotate(120);
+echo $C->ToHexRGB(), PHP_EOL;
+// #00FF00
+
 ```
