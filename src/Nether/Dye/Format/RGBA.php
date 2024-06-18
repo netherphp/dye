@@ -68,7 +68,7 @@ class RGBA {
 	int {
 
 		if(is_float($A))
-		$A = (int)round($A, 0);
+		$A = (int)round(($A * Dye\Util::ByteMax), 0);
 
 		if($A !== NULL)
 		$this->A = Dye\Util::ClampByte($A);

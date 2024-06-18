@@ -68,7 +68,7 @@ class HSLA {
 
 	public function
 	A(?float $A=NULL):
-	int {
+	float {
 
 		if($A !== NULL)
 		$this->A = Dye\Util::ClampNormal($A);

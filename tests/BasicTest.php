@@ -174,6 +174,30 @@ extends PHPUnit\Framework\TestCase {
 		$this->AssertEquals(3, $Fmt->B());
 		$this->AssertEquals(4, $Fmt->A());
 
+		$Fmt->A(0.5);
+		$this->AssertEquals(128, $Fmt->A());
+
+		return;
+	}
+
+	#[PHPUnit\Framework\Attributes\Test]
+	public function
+	TestMethodsFormatHSLA():
+	void {
+
+		$Fmt = new Dye\Format\HSLA;
+		$this->AssertEquals(0, $Fmt->H());
+
+		$Fmt->H(10);
+		$Fmt->S(0.2);
+		$Fmt->L(0.3);
+		$Fmt->A(0.4);
+
+		$this->AssertEquals(10, $Fmt->H());
+		$this->AssertEquals(0.2, $Fmt->S());
+		$this->AssertEquals(0.3, $Fmt->L());
+		$this->AssertEquals(0.4, $Fmt->A());
+
 		return;
 	}
 

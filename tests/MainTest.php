@@ -818,6 +818,12 @@ extends PHPUnit\Framework\TestCase {
 			$C->ToStyleHSL()
 		);
 
+
+		$this->AssertEquals(
+			sprintf('hsla(%d, %.2f, %.2f, 1.00)', static::NvyHSL1[0], static::NvyHSL1[1], static::NvyHSL1[2]),
+			$C->ToStyleHSLA()
+		);
+
 		$this->AssertEquals(
 			sprintf('rgb(%d, %d, %d)', $RGB[0], $RGB[1], $RGB[2]),
 			$C->ToStyleRGB()

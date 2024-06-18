@@ -276,6 +276,13 @@ class Colour {
 	}
 
 	public function
+	ToStyleHSLA():
+	string {
+
+		return $this->HSL->ToStyleHSLA();
+	}
+
+	public function
 	ToStyleRGB():
 	string {
 
