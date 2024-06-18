@@ -107,7 +107,12 @@ class Colour {
 
 		$Out = $this->GetReturnTarget();
 
-		$Out->HSL->HueRotate($Deg);
+		////////
+
+		$Out->HSL->H = Util::WrapDegrees(
+			$Out->HSL->H + $Deg
+		);
+
 		$Out->UpdateFromHSL();
 
 		return $Out;
@@ -117,59 +122,77 @@ class Colour {
 	HueShift(float $Per=0.0):
 	static {
 
-		return $this->HueRotate((int)round((Util::DegMax * $Per), 0));
+		return $this->HueRotate(
+			(int)round(($Per * Util::DegMax), 0)
+		);
 	}
 
 	public function
 	Saturate(float $Per=0.0):
 	static {
 
-		$this->HSL->S = Util::ClampNormal(
-			$this->HSL->S + ($this->HSL->S * $Per)
+		$Out = $this->GetReturnTarget();
+
+		////////
+
+		$Out->HSL->S = Util::ClampNormal(
+			$Out->HSL->S + ($Out->HSL->S * $Per)
 		);
 
-		$this->UpdateFromHSL();
+		$Out->UpdateFromHSL();
 
-		return $this;
+		return $Out;
 	}
 
 	public function
 	Desaturate(float $Per=0.0):
 	static {
 
-		$this->HSL->S = Util::ClampNormal(
-			$this->HSL->S - ($this->HSL->S * $Per)
+		$Out = $this->GetReturnTarget();
+
+		////////
+
+		$Out->HSL->S = Util::ClampNormal(
+			$Out->HSL->S - ($Out->HSL->S * $Per)
 		);
 
-		$this->UpdateFromHSL();
+		$Out->UpdateFromHSL();
 
-		return $this;
+		return $Out;
 	}
 
 	public function
 	Lighten(float $Per=0.0):
 	static {
 
-		$this->HSL->L = Util::ClampNormal(
-			$this->HSL->L + ($this->HSL->L * $Per)
+		$Out = $this->GetReturnTarget();
+
+		////////
+
+		$Out->HSL->L = Util::ClampNormal(
+			$Out->HSL->L + ($Out->HSL->L * $Per)
 		);
 
-		$this->UpdateFromHSL();
+		$Out->UpdateFromHSL();
 
-		return $this;
+		return $Out;
 	}
 
 	public function
 	Darken(float $Per=0.0):
 	static {
 
-		$this->HSL->L = Util::ClampNormal(
-			$this->HSL->L - ($this->HSL->L * $Per)
+		$Out = $this->GetReturnTarget();
+
+		////////
+
+		$Out->HSL->L = Util::ClampNormal(
+			$Out->HSL->L - ($Out->HSL->L * $Per)
 		);
 
-		$this->UpdateFromHSL();
+		$Out->UpdateFromHSL();
 
-		return $this;
+		return $Out;
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -179,20 +202,28 @@ class Colour {
 	Saturation(float $Mult=1.0):
 	static {
 
-		$this->HSL->S = ($this->HSL->S * $Mult);
-		$this->UpdateFromHSL();
+		$Out = $this->GetReturnTarget();
 
-		return $this;
+		////////
+
+		$Out->HSL->S = ($Out->HSL->S * $Mult);
+		$Out->UpdateFromHSL();
+
+		return $Out;
 	}
 
 	public function
 	Lightness(float $Mult=1.0):
 	static {
 
-		$this->HSL->L = ($this->HSL->L * $Mult);
-		$this->UpdateFromHSL();
+		$Out = $this->GetReturnTarget();
 
-		return $this;
+		////////
+
+		$Out->HSL->L = ($Out->HSL->L * $Mult);
+		$Out->UpdateFromHSL();
+
+		return $Out;
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -203,17 +234,17 @@ class Colour {
 	static {
 
 		if(is_string($Input))
-		return $this->ImportString($Input);
+		return $this->ImportFromString($Input);
 
 		throw new Error\InvalidColourFormat(
-			"{$Input} (try specific Import method)"
+			"{$Input} (try specific Import* method)"
 		);
 
 		return $this;
 	}
 
 	protected function
-	ImportString(string $Input):
+	ImportFromString(string $Input):
 	static {
 
 		$In = strtolower(trim($Input));
@@ -441,7 +472,7 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->ImportString($Input);
+		$Output->ImportFromString($Input);
 
 		return $Output;
 	}

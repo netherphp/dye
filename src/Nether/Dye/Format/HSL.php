@@ -56,15 +56,6 @@ class HSL {
 		return $this;
 	}
 
-	public function
-	HueRotate(int $Deg):
-	static {
-
-		$this->H = Dye\Util::WrapDegrees($this->H + $Deg);
-
-		return $this;
-	}
-
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
