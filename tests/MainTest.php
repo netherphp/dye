@@ -873,7 +873,8 @@ extends PHPUnit\Framework\TestCase {
 			'Desaturate' => [ 0.5 ],
 			'Lightness'  => [ 1.25 ],
 			'Lighten'    => [ 0.5 ],
-			'Darken'     => [ 0.5 ]
+			'Darken'     => [ 0.5 ],
+			'Mix'        => [ Dye\Colour::From('#346723') ]
 		];
 
 		$BaseColour = '#FF0000';
