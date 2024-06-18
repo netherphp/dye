@@ -38,7 +38,7 @@ class Colour {
 	}
 
 	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
+	// QUERY API ///////////////////////////////////////////////////
 
 	public function
 	R():
@@ -104,7 +104,7 @@ class Colour {
 	}
 
 	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
+	// MANIPULATION API ////////////////////////////////////////////
 
 	public function
 	HueRotate(int $Deg=0):
@@ -534,68 +534,9 @@ class Colour {
 	static {
 
 		$Output = new static;
-		$Output->DigestString($Input);
+		$Output->Import($Input);
 
 		return $Output;
-	}
-
-	static public function
-	FromHexString(string $RGBa):
-	static {
-
-		$Output = new static;
-		$Output->ImportHexString($RGBa);
-
-		return $Output;
-	}
-
-	static public function
-	FromStyleRGB(string $RGB):
-	static {
-
-		$Bits = NULL;
-
-		if(!preg_match('/rgb\(([\d]{1,3}), *?([\d]{1,3}), *?([\d]{1,3})\)/i', $RGB, $Bits))
-		throw new Error\InvalidColourFormat($RGB);
-
-		////////
-
-		return static::FromRGBA(
-			(int)$Bits[1], (int)$Bits[2], (int)$Bits[3]
-		);
-	}
-
-	static public function
-	FromStyleRGBA(string $RGBA):
-	static {
-
-		$Bits = NULL;
-
-		if(!preg_match('/rgba\(([\d]+), *?([\d]+), *?([\d]+), *?([\d\.]+)\)/i', $RGBA, $Bits))
-		throw new Error\InvalidColourFormat($RGBA);
-
-		////////
-
-		return static::FromRGBA(
-			(int)$Bits[1], (int)$Bits[2], (int)$Bits[3],
-			Util::ClampByte($Bits[4] * Util::ByteMax)
-		);
-	}
-
-	static public function
-	FromStyleHSL(string $HSL):
-	static {
-
-		$Bits = NULL;
-
-		if(!preg_match('/hsl\(([\d]+), *?([\d\.]+), *?([\d\.]+)\)/i', $HSL, $Bits))
-		throw new Error\InvalidColourFormat($HSL);
-
-		////////
-
-		return static::FromHSL(
-			(int)$Bits[1], (float)$Bits[2], (float)$Bits[3]
-		);
 	}
 
 	static public function
@@ -637,7 +578,5 @@ class Colour {
 
 		return $Output;
 	}
-
-
 
 };
