@@ -10,7 +10,7 @@ extends Exception {
 	public function
 	__Construct(string $Input) {
 
-		$Message = "my regex failed to understand crazy: {$Input}";
+		$Message = "regex failed to understand crazy: {$Input}";
 		parent::__Construct($Message);
 
 		return;

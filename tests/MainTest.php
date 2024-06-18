@@ -497,6 +497,17 @@ extends PHPUnit\Framework\TestCase {
 			Dye\Error\StyleRegexFail::class, $Err
 		);
 
+		////////
+
+		$Err = NULL;
+
+		try { $C->Import('rgba(chicken, nuggets)'); }
+		catch(Dye\Error\StyleRegexFail $Err) { }
+
+		$this->AssertInstanceOf(
+			Dye\Error\StyleRegexFail::class, $Err
+		);
+
 		return;
 	}
 
