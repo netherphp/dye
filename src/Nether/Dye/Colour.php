@@ -200,7 +200,7 @@ class Colour {
 	////////////////////////////////
 
 	public function
-	Mix(self $With, float $Str=1.0):
+	Mix(self $With, float $Str=0.5):
 	static {
 
 		$Src = $this->RGB->ToArray();

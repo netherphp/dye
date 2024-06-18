@@ -174,8 +174,8 @@ class BurnRow {
 		echo $Row->Render('Desat', $Row->GenDesatData());
 		echo $Row->Render('Darken', $Row->GenDarkenData());
 		echo $Row->Render('Lighten', $Row->GenLightenData());
-		echo $Row->Render('Mix(Magenta)', $Row->GenMixData($Magenta));
-		echo $Row->Render('Mix(Slate)', $Row->GenMixData($Slate));
+		echo $Row->Render("Mix({$Magenta->ToHexRGB()})", $Row->GenMixData($Magenta));
+		echo $Row->Render("Mix({$Slate->ToHexRGB()})", $Row->GenMixData($Slate));
 		echo '<br />';
 	}
 	?>

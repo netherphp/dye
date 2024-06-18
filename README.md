@@ -71,6 +71,9 @@ This version will return a fresh immutable colour when mixing in modifications l
 **`$Colour->Darken(float $Str): self`**
 * Reduce the lightness by the specified strength.
 
+**`$Colour->Mix(Colour $With, float $Str=0.5): self`**
+* Blend the specified colour with this one at the specified strength.
+
 # Printing API
 
 **`$Colour->ToHexRGB(): string`**
