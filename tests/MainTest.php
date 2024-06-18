@@ -226,10 +226,10 @@ extends PHPUnit\Framework\TestCase {
 			$T = Dye\Colour::From($RGB);
 			$C = Dye\Colour::From($T->ToStyleHSL());
 
-			$this->AssertEqualsWithDelta($T->R(), $C->R(), $Fuzz);
-			$this->AssertEqualsWithDelta($T->G(), $C->G(), $Fuzz);
-			$this->AssertEqualsWithDelta($T->B(), $C->B(), $Fuzz);
-			$this->AssertEqualsWithDelta($T->A(), $C->A(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->R(), $C->RGB->R(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->G(), $C->RGB->G(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->B(), $C->RGB->B(), $Fuzz);
+			$this->AssertEqualsWithDelta($T->RGB->A(), $C->RGB->A(), $Fuzz);
 		}
 
 		////////
@@ -379,17 +379,17 @@ extends PHPUnit\Framework\TestCase {
 
 			// check values
 			$Chsl = Dye\Colour::FromHSL($HSL[0], $HSL[1], $HSL[2]);
-			$this->AssertEquals($HSL[0], $Chsl->H());
-			$this->AssertEquals($HSL[1], $Chsl->S());
-			$this->AssertEquals($HSL[2], $Chsl->L());
-			$this->AssertEquals(255, $Chsl->A());
+			$this->AssertEquals($HSL[0], $Chsl->HSL->H());
+			$this->AssertEquals($HSL[1], $Chsl->HSL->S());
+			$this->AssertEquals($HSL[2], $Chsl->HSL->L());
+			$this->AssertEquals(1.0, $Chsl->HSL->A());
 
 			// sanity check rgb values
 			$Crgb = Dye\Colour::From(static::SweepRGB1[$Key]);
-			$this->AssertEqualsWithDelta($Crgb->R(), $Chsl->R(), $Fuzz);
-			$this->AssertEqualsWithDelta($Crgb->G(), $Chsl->G(), $Fuzz);
-			$this->AssertEqualsWithDelta($Crgb->B(), $Chsl->B(), $Fuzz);
-			$this->AssertEqualsWithDelta($Crgb->A(), $Chsl->A(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->RGB->R(), $Chsl->RGB->R(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->RGB->G(), $Chsl->RGB->G(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->RGB->B(), $Chsl->RGB->B(), $Fuzz);
+			$this->AssertEqualsWithDelta($Crgb->RGB->A(), $Chsl->RGB->A(), $Fuzz);
 
 		}
 
@@ -548,61 +548,61 @@ extends PHPUnit\Framework\TestCase {
 	void {
 
 		$Col = Dye\Colour::FromHSL(...static::RedHSL1);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		// basic rotations by degrees.
 
 		$Col->HueRotate(120);
-		$this->AssertEquals(120, $Col->H());
+		$this->AssertEquals(120, $Col->HSL->H());
 
 		$Col->HueRotate(120);
-		$this->AssertEquals(240, $Col->H());
+		$this->AssertEquals(240, $Col->HSL->H());
 
 		$Col->HueRotate(120);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		$Col->HueRotate(-120);
-		$this->AssertEquals(240, $Col->H());
+		$this->AssertEquals(240, $Col->HSL->H());
 
 		$Col->HueRotate(-120);
-		$this->AssertEquals(120, $Col->H());
+		$this->AssertEquals(120, $Col->HSL->H());
 
 		$Col->HueRotate(-120);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		// basic rotations by percentage.
 
 		$Col->HueShift(0.3334);
-		$this->AssertEquals(120, $Col->H());
+		$this->AssertEquals(120, $Col->HSL->H());
 
 		$Col->HueShift(0.3334);
-		$this->AssertEquals(240, $Col->H());
+		$this->AssertEquals(240, $Col->HSL->H());
 
 		$Col->HueShift(0.3334);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		$Col->HueShift(-0.3334);
-		$this->AssertEquals(240, $Col->H());
+		$this->AssertEquals(240, $Col->HSL->H());
 
 		$Col->HueShift(-0.3334);
-		$this->AssertEquals(120, $Col->H());
+		$this->AssertEquals(120, $Col->HSL->H());
 
 		$Col->HueShift(-0.3334);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		// rotations that overflow the number of degrees.
 
 		$Col->HueRotate(120 * 4);
-		$this->AssertEquals(120, $Col->H());
+		$this->AssertEquals(120, $Col->HSL->H());
 
 		$Col->HueRotate(-120 * 4);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		$Col->HueShift(0.3334 * 4);
-		$this->AssertEquals(120, $Col->H());
+		$this->AssertEquals(120, $Col->HSL->H());
 
 		$Col->HueShift(-0.3334 * 4);
-		$this->AssertEquals(0, $Col->H());
+		$this->AssertEquals(0, $Col->HSL->H());
 
 		return;
 	}

@@ -16,10 +16,10 @@ class Colour {
 	TypeRGBA = 'rgba',
 	TypeHSL  = 'hsl';
 
-	protected Format\RGBA
+	public Format\RGBA
 	$RGB;
 
-	protected Format\HSLA
+	public Format\HSLA
 	$HSL;
 
 	////////////////////////////////////////////////////////////////
@@ -50,55 +50,6 @@ class Colour {
 
 	////////////////////////////////////////////////////////////////
 	// QUERY API ///////////////////////////////////////////////////
-
-	public function
-	R():
-	int {
-
-		return $this->RGB->R();
-	}
-
-	public function
-	G():
-	int {
-
-		return $this->RGB->G();
-	}
-
-	public function
-	B():
-	int {
-
-		return $this->RGB->B();
-	}
-
-	public function
-	A():
-	int {
-
-		return $this->RGB->A();
-	}
-
-	public function
-	H():
-	int {
-
-		return $this->HSL->H;
-	}
-
-	public function
-	S():
-	float {
-
-		return $this->HSL->S;
-	}
-
-	public function
-	L():
-	float {
-
-		return $this->HSL->L;
-	}
 
 	public function
 	IsBright():

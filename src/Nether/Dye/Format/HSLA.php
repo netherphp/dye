@@ -36,6 +36,47 @@ class HSLA {
 		return;
 	}
 
+	public function
+	H(?int $H=NULL):
+	int {
+
+		if($H !== NULL)
+		$this->H = Dye\Util::WrapDegrees($H);
+
+		return $this->H;
+	}
+
+	public function
+	S(?float $S=NULL):
+	float {
+
+		if($S !== NULL)
+		$this->S = Dye\Util::ClampNormal($S);
+
+		return $this->S;
+	}
+
+	public function
+	L(?float $L=NULL):
+	float {
+
+		if($L !== NULL)
+		$this->L = Dye\Util::ClampNormal($L);
+
+		return $this->L;
+	}
+
+	public function
+	A(?float $A=NULL):
+	int {
+
+		if($A !== NULL)
+		$this->A = Dye\Util::ClampNormal($A);
+
+		return $this->A;
+	}
+
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
