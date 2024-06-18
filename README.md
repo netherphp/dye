@@ -71,7 +71,7 @@ This version will return a fresh immutable colour when mixing in modifications l
 **`$Colour->Darken(float $Str): self`**
 * Reduce the lightness by the specified strength.
 
-## Printing API
+# Printing API
 
 **`$Colour->ToHexRGB(): string`**
 * Return a hex encoded string like `#FF0000`
@@ -91,7 +91,7 @@ This version will return a fresh immutable colour when mixing in modifications l
 **`$Colour->ToStyleHSLA(): string`**
 * Return a hex encoded string like `hsl(0, 1.00, 0.50, 1.0)`
 
-## Format Component API
+# Format Component API
 
 > Note: all manipulations should be done via the methods on the root colour
 > object to keep the various properties in sync. The SetRGB() and SetHSL()
